@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/Index_Top_Layout.cshtml";
+}
+
+
+@Html.Partial("Personal_Top")
+
+
+<style>
+    .update {
+        padding: 10px 20px;
+        background-color: #138bff;
+        opacity: 0.8;
+        border-radius: 5px;
+    }
+
+    .reset {
+        margin-left: 20px;
+        padding: 10px 20px;
+        background-color: #80fe8e;
+        opacity: 0.8;
+        border-radius: 5px;
+    }
+   
+</style>
+<script src="~/JavaScript/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+
+        //旧密码失去焦点事件
+        $("#oldpassword").blur(function () {
+
+            var param = $("#oldpassword").val();
+
+            $.ajax({
+                url: "/Personal/checkoldpassword",
+                data: { oldpassword: param },
+                success: function (falg) {
+                    if (falg == true) {
+                        $("#tip1").html("<font color=\"green\" size=\"3\">旧密码正确</font>");
+
+                        //新密码长度验证
+                        $("#newpassword").blur(function () {
+
+                            var num = $("#newpassword").val().length;
+
+                            if (num < 6) {
+                                $("#tip2").html("<font color=\"red\" size=\"3\">密码太短</font>");
+                            }
+                            else if (num > 18) {
+                                $("#tip2").html("<font color=\"red\" size=\"3\">密码太长</font>");
+                            }
+                            else {
+                                $("#tip2").html("<font color=\"green\" size=\"3\">密码合格</font>");
+
+                                //新密码和确认密码的验证
+                                $("#qrpasssword").blur(function () {
+
+                                    var temp = $("#newpassword").val();
+                                    var num = $("#qrpasssword").val().length;
+
+                                    if ($("#qrpasssword").val() != temp) {
+                                        $("#tip3").html("<font color=\"red\" size=\"3\">错误</font>");
+                                    }
+                                    else {
+                                        if (num >= 6 && num <= 18) {
+                                            $("#tip3").html("<font color=\"green\" size=\"3\">密码输入正确</font>");
+                                        }
+                                        else {
+                                            $("#tip3").html("<font color=\"red\" size=\"3\">无效</font>");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        $("#tip1").html("<font color=\"red\" size=\"3\">旧密码错误</font>");
+                    }
+                }
+            });
+
+        });
+
+        //点击按钮提交
+        $("#update").click(function () {
+            var flag = true;
+            var oldpwd = $("#oldpassword").val();
+            var newpwd = $("#newpassword").val();
+            var qrpwd=$("#qrpasssword").val();
+            var num1 = $("#oldpassword").val().length;
+            var num2 = $("#newpassword").val().length;
+
+            if (num1 != num2 || num1 < 6 || num2 < 6 || num1 > 18 || num2 > 18 || newpwd != qrpwd) {
+                flag = false;
+            } else
+            {
+                flag = true;
+            }
+            if (flag)
+            {
+                $.ajax({
+
+                    url: "/Personal/EditPwd",
+                    data: { oldpasswod: oldpwd, newpassword: newpwd },
+                    success: function (result)
+                    {
+                        if (result > 0) {
+                            alert("密码修改成功！");
+                            location.href = "/Personal/Account"
+                        }
+                        else
+                        {
+                            alert("密码修改失败");
+                        }
+                    }
+                });
+            }
+        });
+
+        //密码重置
+        $("#reset").click(function () {
+            location.href = "/Personal/Account";
+        });
+    });
+</script>
+
+
+<form action="/" method="post" id="form1" style="width: 70%; margin: 0 auto; background-color: white; height: 400px">
+    <div style="margin-left: 20px">
+        <img style="width: 60px; height: 60px" src="~/images/Personal/shezhi.png" />
+        <span>账号设置</span>
+    </div>
+    <hr />
+   
+    <table  style="margin-left: 250px; margin-top: 30px; width:400px;height:120px; ">
+        <tr style="margin-top: 20px;" >
+            <td><span>旧密码:&nbsp;</span><input type="password" id="oldpassword" name="oldpassword" /></td>
+            <td><span id="tip1"></span></td>
+        </tr>
+        <tr style="margin-top: 20px;">
+            <td><span>新密码:&nbsp;</span><input type="password" id="newpassword" name="newpassword" /></td>
+            <td><span id="tip2"></span></td>
+        </tr>
+        <tr style="margin-top: 20px;">
+            <td><span>确认密码:</span><input type="password" id="qrpasssword" name="qrpasssword" /></td>
+            <td><span id="tip3"></span></td>
+        </tr>
+    </table>
+    <div style="margin-top: 20px;margin-left:270px">
+        <input class="update" id="update" type="button" value="修 改" />
+        <input class="reset" id="reset" type="reset" value="重 置" />
+    </div>
+</form>
+
+@section footerSection{
+
+    <div class="copyright wow fadeInDown" data-wow-duration=".8s" data-wow-delay=".2s">
+        <div class="container">
+            <p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">技术博客</a></p>
+        </div>
+    </div>
+
+}
+<script>
+
+    window.onload = function () {
+
+        selector(3, "Account");
+
+    }
+
+</script>

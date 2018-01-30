@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "查询发布博客页面";
+
+}
+
+@using MonkeyBlog
+
+@{
+    List<Write_blog> wblist = ViewBag.wblist as List<Write_blog>;
+    List<int> bccountlist = ViewBag.bccountlist as List<int>;
+    Dictionary<int, string> dicaud = ViewBag.dicaud as Dictionary<int, string>;
+}
+
+<link href="~/Content/bs/css/bootstrap.css" rel="stylesheet" />
+<script src="~/Content/JS/jquery-2.1.1.min.js"></script>
+<link href="~/Content/getpage/css/page.css" rel="stylesheet" />
+<script src="~/Content/bs/js/bootstrap.js"></script>
+<script src="~/Content/getpage/js/jqPaginator.js"></script>
+
+<style>
+    .page {
+        padding: 0px;
+    }
+
+    .active {
+        width: inherit;
+    }
+</style>
+
+<script>
+    $(function () {
+        //分页
+        $.jqPaginator('#pagination1', {
+            totalPages: parseInt($("#allpage").val()),
+            visiblePages: 10,
+            currentPage: parseInt($("#num").val()),
+            first: '<li class="first"><a href="javascript:;">首页</a></li>',
+            prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+            next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+            last: '<li class="last"><a href="javascript:;">尾页</a></li>',
+            page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+            onPageChange: function (num, type) {
+                if (type != "init") {
+                    //给隐藏域赋值
+                    $("#num").val(num);
+                    $("#form1").submit();
+                }
+            }
+        });
+
+        //编辑
+        $(".editor").on("click", function () {
+
+            //location.href = "/WriteBlog/UpdateWriteBlogIndex?Write_blog_Id=" + $(this).attr("value");
+            window.open("/WriteBlog/UpdateWriteBlogIndex?Write_blog_Id=" + $(this).attr("value"));
+        });
+
+
+        //删除
+        $(".del").on("click", function () {
+            $.post("/WriteBlog/DelWriteBlog", { Write_blog_Id: $(this).attr("value") }, function (res) {
+                if (res > 0) {
+                    alert("删除成功");
+                    location.href = "PublishBlogManagerIndex";
+                } else {
+                    alert("删除失败");
+                }
+            });
+        });
+
+
+        //查询
+        $("#Write_ArticleType").change(function () {
+            $("#num").val(1);
+            $("#form1").submit();
+        });
+
+        //搜索
+        $("#search").click(function () {
+            $("#num").val(1);
+            $("#form1").submit();
+        });
+    })
+
+
+
+</script>
+
+
+<div class="container">
+    <div class="col-md-12" style="background-color: white; margin-top: 15px">
+        <div class="col-md-12" style="margin-bottom: 30px; position: absolute">
+            <form id="form1" action="PublishBlogManagerIndex" method="post">
+                <input type="hidden" id="num" value="@ViewBag.rows" name="num" />
+                <input type="hidden" id="allpage" value="@ViewBag.allpage" name="allpage" />
+                <div class="col-md-11">
+                    <div class="col-md-3" style="margin-top: 28px">
+
+                        <select name="Write_ArticleType" id="Write_ArticleType" class="col-md-9" style="height: 40px; line-height: 40px">
+                            <option value="-1">请选择</option>
+                            <option value="0">原创</option>
+                            <option value="1">转载</option>
+                            <option value="2">翻译</option>
+                        </select>
+                        <input type="hidden" id="hiddenWrite_ArticleType" value="@ViewBag.Write_ArticleType" />
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-5" style="margin-top: 28px; display: flex; flex-direction: row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.searchcontent" name="searchcontent" id="searchcontent" placeholder="搜索博主文章" style="height: 40px; line-height: 40px; width: 100%; border: 1px solid gray; border-right: none; border-radius: 5px 0 0 5px;" />
+
+                        </div>
+                        <div class="col-md-3" style="margin-left: -30px">
+                            <input type="button" id="search" value="搜索" style="height: 40px; line-height: 40px; text-align: center; width: 100%; border: 1px solid gray; border-left: none; border-radius: 0 5px 5px 0; color: white;" />
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <script>
+                    $(function () {
+                        $("#Write_ArticleType").find("option").each(function (index, item) {
+                            if ($("#hiddenWrite_ArticleType").val() == $(item).val()) {
+                                $(item).prop("selected", "selected");
+                            }
+                        });
+
+                    })
+                </script>
+
+            </form>
+        </div>
+        <div class="col-md-12" style="position: absolute; margin-top: 100px">
+            <table class="table table-hover">
+
+                <tr>
+                    <th>标题</th>
+                    <th>状态</th>
+                    <th>阅读</th>
+                    <th>评论</th>
+                    <th>操作</th>
+                </tr>
+                @{int i = 0;}
+
+                @foreach (var item in wblist)
+                {
+            
+                    <tr style="font-family:宋体">
+                        @if (item.Write_Title.Length > 30)
+                        {
+                            <td>@item.Write_Title.Substring(0, 30)</td>
+                        }
+                        else
+                        {
+                            <td>@item.Write_Title</td>
+                        }
+                        @if (item.Write_State == 2)
+                        {
+                            <td></td>
+                        }
+                        else if (item.Write_State == 0)
+                        {
+                            <td style="color: green">待审核</td>
+                        }
+                        else
+                        {
+                            <td style="color: red">@dicaud[item.Write_blog_Id]</td>
+                        }
+                        <td>@item.Write_ReadCount</td>
+                        <td>@bccountlist[i]</td>
+                        <td><a class="editor" style="color:deepskyblue"  value="@item.Write_blog_Id">编辑</a> | <a class="del" style="color:red" value="@item.Write_blog_Id">删除</a></td>
+                    </tr>
+            
+                        i = i + 1;
+                }
+                <!--  判断是否搜索到了值-->
+                @if (wblist.Count() <= 0)
+                {
+                    <tr>
+                        <td colspan="5" style="background-color: lightyellow; text-align: center"><i class='glyphicon glyphicon-search'></i>没有搜索到您想要的</td>
+                    </tr>
+                }
+
+            </table>
+            <p id="p1"></p>
+            <ul class="pagination" id="pagination1"></ul>
+        </div>
+
+    </div>
+</div>
+

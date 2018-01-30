@@ -1,0 +1,657 @@
+﻿@{
+    ViewBag.Title = "Personal_Message";
+    Layout = "~/Views/Shared/Index_Top_Layout.cshtml";
+}
+@using MonkeyBlog.DTO
+@model List<Message_helper>
+
+@Html.Partial("Personal_Top")
+
+
+<style>
+    .div1 {
+        margin:0 auto;
+        height: 700px;
+        width: 80%;
+        background-color:white;
+        margin-top:-10px;
+        padding-top:20px;
+    }
+
+     .div2  a:hover{
+            width:auto;
+            height:800px;
+            margin:4px 7px 2px 4px;
+            cursor:pointer;
+            border-bottom: 1px solid green;
+            padding: 5px 7px 2px 4px;
+
+    }
+    .div2 li {
+    
+        display:inline;
+        padding:5px 20px;
+        list-style-type:none;
+    }
+
+    .content {
+        text-align:center;
+        margin-top:300px;
+    }
+    .notice {
+    margin-left:10px;
+        border:none;
+        padding:10px 10px;
+        color:white;
+        border-radius:5px;
+    }
+
+    .div3 {
+    
+        float:left;
+    position:relative;
+    }
+    .div4 {
+    margin-top:-10px;
+    margin-left:20px;
+        float:left;
+        width:700px;
+        height:300px;
+        border:1px solid #e2e2e2;
+
+    }
+
+
+     .div5 {
+         position:relative;
+    margin-top:-10px;
+    margin-left:20px;
+        float:left;
+        width:700px;
+        height:600px;
+        border:1px solid #e2e2e2;
+
+    }
+
+    .private_letter {
+    
+         border:none;
+        padding:10px 10px;
+        margin-left:20px;
+        color:white;
+        border-radius:5px;
+    }
+    .notice:hover {
+    
+        background-color:red;
+
+    }
+    .private_letter:hover{
+        background-color:green;
+    }
+    .Message_list {
+       margin-left:20px;
+        width:310px;
+        height:600px;
+        border:1px solid #dbdbdb;
+        margin-top:-10px;
+    }
+    .type_list {
+    
+        padding:10px 20px;
+        margin-left:20px;
+
+    }
+        .type_list a {
+        
+            color:black;
+            font-size:14px;
+            color:#949494;
+        }
+
+            .type_list a:hover {
+            
+                color:red;
+                cursor:pointer;
+
+            }
+    .message_table {
+        margin-top:-10px;
+        width:100%;
+        overflow:visible;
+    }
+
+    .message_table tr {
+    
+        border-bottom:1px solid #b5b5b5;
+
+    }
+        .message_table tr:hover {
+        
+        background-color:#e2e2e2;
+        border-top:1px solid #8a8a8a;
+        }
+  
+    .message_head {
+    border-radius:5px;
+        width:40px;
+        height:40px;
+        margin-left:5px;
+    }
+    .message_ul {
+        list-style-type:none;
+        margin-top:10px;
+        margin-bottom:-10px;
+    }
+    .checkbox_message {
+    margin-left:10px;
+        width:35px;
+        opacity:0.8;
+
+    }
+    .message_ul dt {
+    
+        float:left;
+
+    }
+    .message_name {
+       margin-top:5px;
+       font-size:13px;
+       font-weight:bolder;
+    }
+    .message {
+        margin-top:5px;
+       font-size:6px;
+       color:#9d9d9d;
+       white-space:nowrap;
+       overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .object_div {
+        
+        margin-top:10px;
+        margin-left:20px;
+    }
+        .object_div span {
+        font-weight:700;
+        font-size:15px;
+        }
+    .send_object {
+    
+        
+        margin-left:20px;
+        list-style-type:none;
+    
+    }
+    .send_object li {
+        color:#c4c4c4;
+        font-size:12px;
+        font-weight:700;
+        display:inline;
+        padding:10px 10px;
+    }
+    .object_img {
+    
+        width:20px;
+        height:20px;
+        margin-right:5px;
+
+    }
+    .object_content {
+         margin-top:10px;
+        margin-left:20px;
+
+    }
+    .object_content span {
+        font-weight:700;
+        font-size:15px;
+
+    }
+    .send {
+    margin-top:20px;
+        padding:6px 10px;
+    border-radius:5px;
+  background-color:#fc4444;
+  color:white;
+    }
+    .cancle {
+    
+        margin-top:20px;
+        margin-left:30px;
+     padding:6px 10px;
+     border-radius:5px;
+    }
+    .chat_person {
+    
+        width:100%;
+        height:40px;
+        background-color:#e6e6e6;
+    }
+    .chat_content {
+    
+        overflow-y: scroll;
+        height:500px;
+    
+    }
+    .message_time_his {
+       
+        width:100%;
+        text-align:center;
+        margin-top:10px;
+    }
+    .head_chat {
+        margin-left:10px;
+        width:40px;
+        height:40px;
+        border-radius:5px;
+        margin:10px 20px;
+    }
+    .ul_chat { 
+        list-style-type:none;
+    }
+        .ul_chat dt {
+        float:left;
+        }
+    .chat_message {
+      
+        background-color:#e2e2e2;
+        /*position:absolute;*/
+        float:left;
+        width:0 auto;
+        padding:5px 10px;
+        border-radius:5px;
+    }
+    .wo_message {
+   
+      float:right;
+        
+         }
+    .chat_message_wo {
+        background-color:#e2e2e2;
+        float:left;
+        padding:5px 10px;
+        border-radius:5px;
+
+        margin-left:-120px auto;
+    }
+    .his_message {
+ 
+    }
+    .message_time_wo {
+    
+        width:100%;
+        text-align:center;
+        margin-top:70px;
+    }
+</style>
+<script src="~/JavaScript/jquery-2.1.1.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.0.3.js"></script>
+<script src="~/signalr/hubs"></script>
+
+<div class="div1">
+    <div>
+       @* <input class="notice" type="button" value="通 知" />*@
+        <input class="private_letter" type="button" value="私 信" />
+    </div>
+    <hr style="margin-top: 10px" />
+   @* <div class="div2">
+        <ul>
+            <li>未读通知:(0)</li>
+            <li><a href="#">|全部标记为已读</a></li>
+            <li><a href="#">|清空所有消息通知</a></li>
+        </ul>
+        <div class="content">消息内容</div>
+    </div>*@
+   <div class="private" hidden="hidden">
+        <div class="div3">
+
+        <div class="Message_list">
+
+            <div class="type_list">
+                <a href="#">已读</a>&nbsp;|
+                <a href="#">未读</a>&nbsp;|
+            </div>
+            <hr style="margin-top: 0px" />
+            <div>
+                <table class="message_table">
+                    @*<tr style="background-color: #e2e2e2; height: 35px; height: 0 auto">
+                        <th>
+                            <label for="full_checkbox">
+                                <input class="checkbox_message" type="checkbox" id="full_checkbox" /><span style="margin-left: 5px; font-size: 13px; color: #464646">全 选</span></label></th>
+                    </tr>*@
+                   @{
+                       
+                       foreach (var  item in Model)
+                       {
+                    <tr class="Person_Full" style="height: 45px; height: 0 auto">
+                        <td>
+                            <ul class="message_ul">
+                                <li>
+                                    <dl>
+                                        <dt>
+                                        <input class="checkbox_message" comm_user="@item.Commt.Comment_User" commentID="@item.Commt.Comment_Id" blog_ID="@item.Commt.ULogin_Id" write_blog="@item.Commt.Write_blog_Id" type="checkbox" /> 
+                @{
+                           if (string.IsNullOrEmpty(item.UserD.Users_Details_Photo))
+                           {
+                                <img class="message_head" src="~/images/1.jpg" />
+                           }
+                           else 
+                           {
+                            <img class="message_head" src="~/images/@item.UserD.Users_Details_Photo" />
+                           }
+                    }
+                                           </dt>
+                                        <dd class="message_name">&nbsp;@item.UserD.Users_Details_Name</dd>
+                                        <dd class="message">@item.Commt.Comment_Content</dd>
+                                    </dl>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                       }
+                       
+                     }
+          
+                </table>
+                
+
+                <script>
+
+                    $(function () {
+
+                        $(".Person_Full").find("input[type='checkbox']").click(function () {
+                            if (this.checked) {
+                                $(".send_object").html(" ");
+                                //将选中的复选框添加进群发列表中
+                                //获取当前同期的评论者账号名
+                                var commt_name = $(this).parent().parent().find("dd").eq(0).html();
+                                $(".send_object").append("<li><img class='object_img'  src='/images/Personal/object_img.jpg'/>" + commt_name + "</li>");
+                            }
+                            else {
+                                $(".send_object").html(" ");
+                            }
+
+                        })
+
+                    })
+
+                </script>
+
+               @* <script>
+                    //通过点击复选框，选择添加群发对象
+                    $(function(){
+                        //选择全选，选中复选框添加进群发堆
+                        $("#full_checkbox").click(function () {
+                            if (this.checked) {
+                                $(".Person_Full").find("input[type='checkbox']").each(function (index, item) {
+                                    item.checked = true;
+                                    //将选中的复选框添加进群发列表中
+                                        //获取当前同期的评论者账号名
+                                        var commt_name = $(this).parent().parent().find("dd").eq(0).html();
+                                        $(".send_object").append("<li><img class='object_img'  src='/images/Personal/object_img.jpg'/>"+commt_name+"</li>");
+                                })
+                            }
+                            else {
+                                $(".Person_Full").find("input[type='checkbox']").each(function (index, item) {
+                                    item.checked = false;
+                                })
+                                $(".send_object").html(" ");
+                            }
+                        })
+                    })
+
+                </script>*@
+            </div>
+
+            <div style="position:absolute;bottom:5px;" >
+                <input class="send_many" style="margin-left:130px;border-radius:5px;padding:10px 20px;background-color:#1bcf00" type="button" value="私 发" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="div4">
+
+        <div class="object_div">
+         <span>接收人员:</span><ul class="send_object" ></ul>
+            @*<li><img class="object_img"  src="~/images/Personal/object_img.jpg"/>张三</li><li><img class="object_img"  src="~/images/Personal/object_img.jpg"/>李四</li><li><img class="object_img"  src="~/images/Personal/object_img.jpg"/>王五</li><li><img class="object_img"  src="~/images/Personal/object_img.jpg"/>二大麻子</li>*@
+        </div>
+        <hr style="margin-top:10px" />
+        <div class="object_content">
+            <div style="float:left"><span >发送信息:</span></div>
+            <div style="float:left">
+                <textarea rows="4" cols="71" class="textarea" style="resize:none"></textarea>
+            </div>
+            <div style="margin-left:50px;">
+                <input type="button" class="send" value="发 送"/> <input type="button" class="cancle" value="取 消"/>
+            </div>
+
+            <script>
+
+                $(function () {
+                    //群发消息
+                    $(".send").click(function () {
+                        //获取评论编号
+                        var commentID = $(".Person_Full").find("input[type='checkbox']:checked").attr("commentID");
+                        if (commentID == null) {
+                            alert("请选择私发对象.....");
+                            return;
+                        }
+                        //回复消息内容
+                        var content = $(".textarea").val();
+
+                        if (content == null || content == "") {
+                            alert("请输入发送的内容.....");
+                            return;
+                        }
+
+                        //博文编号
+                        var write_blog = $(".Person_Full").find("input[type='checkbox']:checked").attr("write_blog");
+                        //博主
+                        var blog_ID = $(".Person_Full").find("input[type='checkbox']:checked").attr("blog_ID");
+
+                        //评论者编号
+                        var comm_user = $(".Person_Full").find("input[type='checkbox']:checked").attr("comm_user");
+                        var jsonobj = {
+                            Comment_Id: commentID,
+                            Comment_Content: content,
+                            Write_blog_Id: write_blog,
+                            ULogin_Id: blog_ID,
+                            Comment_User: comm_user
+                        };
+                        var jsonstr = JSON.stringify(jsonobj);
+
+                        location.href = "/Personal/Message_ManySend?jsonstr=" + jsonstr;
+                    })
+                })
+            </script>
+
+        </div>
+    </div>
+
+       <div class="div5" hidden="hidden" >
+           <div class="message_div_Window">   
+           <div class="chat_person">
+               <img height="40" width="50" src="~/images/Personal/chat_img.png" />
+
+               @@<span style="text-align: center; font-size: 15px; font-weight: 700; color: red">{{Message_name}}</span>和"我"的私信聊天
+
+           </div>
+           <div class="chat_content" id="chat_content" v-for="message in MessageList">
+               
+               <div class="show_window" v-for="message_show in message.mwhList">
+
+                   <div v-if="message_show.blog_id === message_show.Comment_user">
+                       <div class="message_time_wo">{{message_show.Message_SendDate}}</div>
+                       <div class="wo_message" style="width: 100%;">
+                           <ul class="ul_chat" style="float: right;">
+                               <li>
+                                   <dl>
+                                       <dd class="chat_message_wo"><span class="comment_user" :comment_user="message_show.Comment_user">{{message_show.Comment_Content}}</span></dd>
+                                       <dt class="">
+                                           <div v-if="message_show.Img_Head===''||message_show.Img_Head===null">
+                                                <img class="head_chat" src="/images/1.jpg" />
+                                           </div>
+                                           <div v-else>
+                                               <img class="head_chat" :src="'/images/'+message_show.Img_Head" />
+                                           </div>
+                                           </dt>
+                                   </dl>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+                   <div v-else>    
+               <div class="his_message">
+                   <div class="message_time_his">{{message_show.Message_SendDate}}</div>
+                   <div class="his_message">
+                       <ul class="ul_chat">
+                           <li>
+                               <dl>
+                                   <dt class="">
+                                       <img class="head_chat" :src="'/images/'+message_show.Img_Head" /></dt>
+                                   <dd class="chat_message"><span class="comment_id_last" :comment_id_last="message_show.Windom_Comment_ID">{{message_show.Comment_Content}}</span></dd>
+                               </dl>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+                       <br />
+                   </div>
+               </div>
+           </div>    
+           </div>
+
+            <div class="input_div" style="position: absolute; bottom: 5px; width: 100%">
+               <input id="message" style="width: 90%; border: 1px solid #e2e2e2;" type="text" />
+                 <button type="button" id="sendMessage" style="border-radius: 5px; background-color: #fc4444">发 送</button> 
+                </div>
+       </div>
+     
+      @*聊天窗的实现*@
+
+       <script>
+           $(function () {
+
+               //关联后台服务器的hub类
+               var chat = $.connection.messageHub;
+
+               //前台创建一个刚发后台调用
+
+               chat.client.getMessage = function (time, chat_content, img_head) {
+                   //发送消息成功之后，推送消息给自己的聊天窗
+                   var content = "<div class='message_time_wo'>" + time + "</div><div class='wo_message' style='width: 100%;'><ul class='ul_chat' style='float: right;'><li><dl><dd class='chat_message_wo'><span>" + chat_content + "</span></dd><dt><img class='head_chat' src='/images/" + img_head + "' /></dt></dl></li></ul></div>";
+                   $(".chat_content").append(content);
+
+
+                   ////删除重复的消息提示框
+
+                   //var last_Content = $(".wo_message").find("span").last().html();
+
+
+
+               }
+               //打开前台服务
+               $.connection.hub.start();
+               //点击聊天窗的发送按钮
+               $("#sendMessage").click(function () {
+
+                   //获取发送的对象信息
+
+                   //1.需要
+                   var content = $("#message").val();
+
+                   if (content == null || content == "") {
+                       alert("请输入消息.....");
+                       return;
+                   }
+                   //获取评论者的编号
+                   var comment_user = $(".comment_user").last().attr("comment_user");
+                   //找到最后一条评论者的编号
+                   var comment_id_last = $(".comment_id_last").last().attr("comment_id_last");
+                   $("#message").val(" ");
+                   //调用后台方法
+                   chat.server.sendMessage(content, comment_id_last, comment_user);
+
+               })
+
+           })
+
+
+       </script>
+
+</div>
+    <script src="~/JavaScript/Personal/vue2.2.4.js"></script>
+               <script>
+
+                   $(function () {
+
+                       var vue = new Vue({
+                           el: ".message_div_Window",
+                           data: {
+                               MessageList: null,
+                               Message_name: null
+                           }
+                       })
+
+                       $(".Person_Full").dblclick(function () {
+                           //选中的复选框的标识值评论者编号
+                           var comm_user = $(this).find("input[type='checkbox']").attr("comm_user");
+                           //博主编号
+                           var blog_ID = $(this).find("input[type='checkbox']").attr("blog_ID");
+                           $.ajax({
+                               type: "post",
+                               url: "/Personal/Message_Private?comm_use=" + comm_user + "&blog_ID=" + blog_ID,
+                               success: function (result) {
+                                   var objjson = JSON.parse(result);
+                                   vue.$data.MessageList = objjson;
+                                   vue.$data.Message_name = objjson[0].Message_name;
+                               }
+                           })
+                       })
+
+                   })
+               </script>
+        @section footerSection{
+
+        <div class="copyright wow fadeInDown" data-wow-duration=".8s" data-wow-delay=".2s">
+            <div class="container">
+                <p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">技术博客</a></p>
+            </div>
+        </div>
+
+    }
+
+<script>
+
+    $(function () {
+
+        $(".Person_Full").dblclick(function () {
+
+            $(".div4").attr("hidden", "hidden");
+            $(".div5").removeAttr("hidden");
+        })
+
+        $(".notice").click(function () {
+
+            $(".div2").removeAttr("hidden", "hidden");
+            $(".private").attr("hidden", "hidden");
+
+        })
+        $(".private_letter").click(function () {
+
+            $(".div2").attr("hidden", "hidden");
+            $(".private").removeAttr("hidden");
+
+        })
+        $(".send_many").click(function () {
+
+            $(".div5").attr("hidden", "hidden");
+            $(".div4").removeAttr("hidden");
+
+        })
+
+    })
+
+</script>
+    </div>

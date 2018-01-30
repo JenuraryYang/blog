@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Personal_Notice";
+}
+<script src="/JavaScript/Personal/vue2.2.4.js"></script>
+<script src="~/JavaScript/jquery-2.1.1.min.js"></script>
+
+<style>
+
+     .notice {
+        margin-left: 200px;
+    }
+
+    .notice_type {
+        display: inline;
+        list-style-type: none;
+        padding: 8px 50px;
+        border-right: 1px solid #e8e8e8;
+        font-size: 15px;
+        color: #ff5858;
+    }
+
+        .notice_type:hover {
+            cursor: pointer;
+            color: black;
+        }
+
+    .notice_img {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+        margin: 10px 10px;
+    }
+
+    .notice_ul {
+        height: 150px;
+    }
+
+    .notice_li {
+        margin-top: 20px;
+        list-style-type: none;
+        border: 1px solid #e1e1e1;
+        width: 250px;
+        float: left;
+        margin-left: 20px;
+    }
+
+        .notice_li dt {
+            float: left;
+        }
+
+    .connection_name {
+        font-size: 14px;
+        font-weight: bolder;
+        padding-top: 10px;
+        color: red;
+        margin-left: 20px;
+    }
+
+    .connection_desc {
+        font-size: 10px;
+        color: #bfbfbf;
+        padding-top: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+
+</style>
+
+ <div class="index_div" id="type_relation_div">
+
+        <div class="notice">
+            <ul>
+                <li class="notice_type" type="MyNotice" ><span>我的关注</span></li>
+                <li class="notice_type" type="HeNotice"><span>关注我的</span></li>
+              @*  <li class="notice_type" type="Notices"><span>相互关注</span></li>*@
+            </ul>
+        </div>
+        <div id="notice_ul">
+           <div class="vue_Huzhu" v-if="NoticeList ===''||NoticeList===null">
+                <span>请选择关系类型.....</span>
+           </div>
+          <div v-else>
+               <ul class="notice_ul">
+                 <li class="notice_li" v-for="noticeobj in NoticeList">
+               
+                    <dl>
+                        <dt>
+                            <div v-if="noticeobj.Users_Details_Photo===null">
+                                <img class="notice_img" src="/images/1.jpg" />
+                            </div>
+                             <div v-else>
+                                <img class="notice_img" :src="'/images/'+noticeobj.Users_Details_Photo" />
+                              </div>
+                           </dt>
+                        <dd class="connection_name">&nbsp;{{noticeobj.Users_Details_Name}}</dd>
+                        <dd class="connection_desc">{{noticeobj.Users_Details_Resume}}</dd>
+                    </dl>
+                </li>
+            </ul>
+
+          </div>
+        </div>
+    </div>
+
+
+<script>
+
+    $(function () {
+
+        var notice_vue = new Vue({
+            el: "#notice_ul",
+            data: {
+                NoticeList: ""
+            }
+        });
+
+        $(".notice_type").dblclick(function () {
+            $(this).siblings().removeClass("notice_Click_behind");
+            $(this).addClass("notice_Click_behind");
+            var notice_type = $(this).attr("type");
+
+            $.ajax({
+                type: "post",
+                url: "/Personal/Notice_Center",
+                data: "notice_type=" + notice_type,
+                success: function (result) {
+                    //反序列化
+                    var jsonobj = JSON.parse(result);
+                    notice_vue.$data.NoticeList = jsonobj;
+                    
+                    if (notice_vue.$data.NoticeList == "" || notice_vue.$data.NoticeList == null) {
+                        $(".notice_ul").attr("hidden", "hidden");
+                    }
+                    else {
+                        $(".notice_ul").removeAttr("hidden");
+                    }
+                }
+            });
+
+        })
+    })
+
+</script>

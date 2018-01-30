@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Register";
+}
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>注册</title>
+    <link href="~/Content/CSS/login/common.css" rel="stylesheet" />
+    <link href="~/Content/CSS/login/reset.css" rel="stylesheet" />
+    <script src="~/Content/JS/common.js"></script>
+    <script src="~/Content/JS/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/Vue/vue2.2.4.js"></script>
+    <script src="~/Content/JS/Verification.js"></script>
+    <script>
+        $(function () {
+
+            var _time = 300;
+
+            //初始化vue
+            var vm = new Vue({
+                el: "#register",
+                data: {
+                    username: "",
+                    password: "",
+                    repassword: "",
+                    code: ""
+                }
+            });
+
+            //监听数据改变
+            vm.$watch("repassword", function (newValue, oldValue) {
+                if (newValue.length >= vm.$data.password.length && newValue != vm.$data.password) {
+                    $("#repassword").parent().addClass("color_red");
+                }
+                else {
+                    $("#repassword").parent().removeClass("color_red");
+                }
+            });
+
+            //监控手机号的输入，验证手机号是否符合规则
+            vm.$watch("username", function (newValue, oldVlue) {
+                if ((newValue.length >= 11 && !$.isPoneAvailable(newValue)) || isNaN(newValue)) {
+                    $("#username").parent().addClass("color_red");
+                }
+                else {
+                    $("#username").parent().removeClass("color_red");
+                }
+            });
+
+
+            //获取验证码
+            $("#yz").click(function () {
+                var _th = $(this);
+                var _username = $("#username");
+                //验证手机号是否输入
+                if (_username.val() == null || _username.val() == "") {
+                    $.Message(_username.prop("placeholder") + "不能为空");
+                    return;
+                }
+                //验证手机号
+                if (_username.attr("class") == "color_red" || !$.isPoneAvailable(_username.val())) {
+                    $.Message("输入的手机号格式不正确");
+                    return;
+                }
+
+                //请求后台，发送验证码
+                if (!_th.attr("readonly")) {
+                    $.ajax({
+                        url: "/Login/SendCode",
+                        type: "post",
+                        data: { username: _username.val() },
+                        success: function (result) {
+                            if (result.Result_Code == "000000") {
+                                _th.addClass("background_gray");
+                                _th.attr("readonly", "readonly");
+
+                                var _daoji = setInterval(function () {
+                                    _th.html("已发送(" + _time + ")");
+                                    _time = _time - 1;
+                                    if (_time < 0) {
+                                        clearInterval(_daoji);
+                                        _th.html("重新发送");
+                                        _th.removeClass("background_gray");
+                                        _time = 300;
+                                        _th.attr("readonly", false);
+                                    }
+                                }, 1000);
+                            }
+                            else {
+                                _th.removeClass("background_gray");
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            //注册
+            $("#zc").click(function () {
+                //获取注册数据
+                var _val = vm.$data;
+
+                //验证是否输入手机号
+                if (_val.username == "" || _val.username == null) {
+                    $.Message("手机号不能为空");
+                    return;
+                }
+                //验证手机号
+                if (!$.isPoneAvailable(_val.username)) {
+                    $.Message("输入的手机号格式不正确");
+                    return;
+                }
+                //获取是否输入密码
+                if (_val.password == "" || _val.password == null) {
+                    $.Message("密码不能为空");
+                    return;
+                }
+                //判断前后两次输入的密码是否一致
+                if (_val.password != _val.repassword) {
+                    $.Message("两次密码输入不一致");
+                    return;
+                }
+                //验证验证码是否输入
+                if (_val.code == "" || _val.code == null) {
+                    $.Message("请输入验证码");
+                    return;
+                }
+                //判断时间是否过时
+                if (_time < 0) {
+                    $.Message("验证码超时，请重新获取验证码");
+                    return;
+                }
+
+                //请求后台录入数据
+                $.ajax({
+                    url: "/Login/Register_in",
+                    type: "post",
+                    data: { username: _val.username, password: _val.password, repassword: _val.repassword, code: _val.code },
+                    success: function (result) {
+                        console.log(result);
+                        if (result.Result_Code == "000000") {
+                            location.href = "/Login/LoginIndex";
+                        }
+                        else {
+                            $.Message(result.Result_Title);
+                        }
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+    <style>
+        .color_red {
+            color: red !important;
+            border: 2px solid red;
+        }
+
+        .background_green {
+            background: green !important;
+        }
+
+        .background_gray {
+            background: gray !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap login_wrap">
+        <div class="user_menu">
+
+            <div class="logo"></div>
+
+            <div class="login_box">
+
+                <div class="login_form">
+                    <div class="login_title">
+                        注册
+                    </div>
+                    <form class="form1" action="/Login/add_Login" method="post" id="register">
+
+                        <div class="form_text_ipt">
+                            <input name="username" v-model="username" class="inputxt" type="text" id="username" placeholder="手机号">
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form_text_ipt">
+                            <input name="password" class="inputxt" v-model="password" type="password" id="password" placeholder="密码">
+                        </div>
+                        <div class="form_text_ipt">
+                            <input name="repassword" class="inputxt" v-model="repassword" type="password" id="repassword" placeholder="重复密码">
+                        </div>
+                        <div class="form_text_ipt" style="display:flex;flex-direction:row;">
+                            <input name="code" type="text" v-model="code" id="code" placeholder="验证码" style="width:150px;" />
+                            
+                            <button type="button" id="yz" style="width: 140px;background:red;border:none;color:white;font-size:10px;">获取验证码</button>
+                        </div>
+                        <div class="form_btn">
+                            <button type="button" id="zc">注册</button>
+                        </div>
+                        <div class="form_reg_btn">
+                            <span>已有帐号？</span><a href="/Login/LoginIndex">马上登录</a>
+                        </div>
+                    </form>
+                    <div class="other_login">
+                        <div class="left other_left">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

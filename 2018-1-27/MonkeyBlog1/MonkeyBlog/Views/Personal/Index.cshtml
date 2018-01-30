@@ -1,0 +1,571 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Index_Top_Layout.cshtml";
+    List<MonkeyBlog.Users_Details> ulist = ViewData["udlist"] as List<MonkeyBlog.Users_Details>;
+}
+
+
+@Html.Partial("Personal_Top")
+
+<style>
+    .index_div {
+        width: 90%;
+        margin: 0 auto;
+        background-color: white;
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 20px;
+    }
+
+    .img_title {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+       
+    }
+
+    .index_table {
+        margin-left: 20px;
+        margin-top: 5px;
+        margin-right: 20px;
+        width: 100%;
+    }
+
+    .update_Personal {
+        width: 25px;
+        height: 25px;
+        margin-right: 20px;
+        margin-bottom: -30px;
+        float: right;
+        display: none;
+    }
+
+    .update_2 {
+        width: 25px;
+        height: 25px;
+        margin-right: 20px;
+        margin-bottom: -30px;
+        float: right;
+        display: normal;
+    }
+
+    .update_Head {
+        width: 30px;
+        height: 30px;
+        margin-top: -50px;
+        margin-left: 50px;
+        display: none;
+    }
+
+    .update_Head2 {
+        width: 30px;
+        height: 30px;
+        margin-top: -50px;
+        margin-left: 50px;
+        display: normal;
+    }
+
+    .type_personal {
+        background-color: #eeeeee;
+        height: 50px;
+    }
+
+    .type_My {
+        float: left;
+        padding: 10px 40px;
+        border-left: 1px solid white;
+        font-size: 20px;
+    }
+
+        .type_My:hover {
+            border-top: 2px solid gray;
+            background-color: white;
+            cursor: pointer;
+        }
+
+    .type_My_click {
+        border-top: 2px solid gray;
+        background-color: white;
+        cursor: pointer;
+    }
+
+    .notice {
+        margin-left: 200px;
+    }
+
+    .notice_type {
+        display: inline;
+        list-style-type: none;
+        padding: 8px 50px;
+        border-right: 1px solid #e8e8e8;
+        font-size: 15px;
+        color: #ff5858;
+    }
+
+        .notice_type:hover {
+            cursor: pointer;
+            color: black;
+        }
+
+    .notice_img {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+        margin: 10px 10px;
+    }
+
+    .notice_ul {
+        height: 150px;
+    }
+
+    .notice_li {
+        margin-top: 20px;
+        list-style-type: none;
+        border: 1px solid #e1e1e1;
+        width: 250px;
+        float: left;
+        margin-left: 20px;
+    }
+
+        .notice_li dt {
+            float: left;
+        }
+
+    .connection_name {
+        font-size: 14px;
+        font-weight: bolder;
+        padding-top: 10px;
+        color: red;
+        margin-left: 20px;
+    }
+
+    .connection_desc {
+        font-size: 10px;
+        color: #bfbfbf;
+        padding-top: 10px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .btn_file {
+        border: none;
+        padding: 10px 10px;
+        color: white;
+        border-radius: 5px;
+    }
+
+        .btn_file:hover {
+            background-color: #05ede6;
+        }
+
+    .notice_Click_behind {
+        color: black;
+        font-weight: 700;
+    }
+</style>
+<link href="~/JavaScript/layer/skin/layer.css" rel="stylesheet" />
+<script src="~/JavaScript/jquery-2.1.1.min.js"></script>
+<script src="~/JavaScript/layer/layer.min.js"></script>
+<div class="index_div">
+    <script>
+        $(function () {
+            $(".index_div").mouseover(function () {
+                $("#update_Personal").removeClass("update_Personal");
+                $("#update_Personal").addClass("update_2")
+            })
+            $(".index_div").mouseleave(function () {
+                $("#update_Personal").removeClass("update_2");
+                $("#update_Personal").addClass("update_Personal")
+            })
+            //点击修改个人信息图标进行修改
+            $(".update_Personal").click(function () {
+
+                var content_Form = $(".User_Update");
+                layer.open({
+                    type: 1,
+                    title: "编辑",
+                    content: content_Form.html(),
+                    area: ["500px", "400px"],
+                    btn: ["提交", "取消"],
+                    btn1: function () {
+                        $(".layer_form").submit();
+                      
+                    }
+                });
+
+            });
+
+            //修改个人头像
+
+            $(".img_title").click(function () {
+
+                layer.open({
+                    type: 1,
+                    title: "修改头像",
+                    content: $("#Update_img"),
+                    area: ["300px", "250px"],
+                    btn: ["确定", "取消"],
+                    yes: function () {
+                        $("#form_img").submit();
+                        
+                    },btn2:function(){
+                        layer.close();
+                    }
+                });
+            })
+
+            //头像预览
+            $(".btn_file").change(function () {
+                $("#_img").attr("src", URL.createObjectURL($(this)[0].files[0]));
+            });
+
+        })
+    </script>
+    <a class="update_Personal" id="update_Personal">
+        <img src="~/images/Personal/update.png" /></a>
+    <div>
+
+        @foreach (var item in Model)
+        {
+           
+            <table class="index_table">
+                <tbody>
+                    <tr>
+                        <td rowspan="4" style="width: 170px">
+                            <div class="img_title">
+
+                                @{
+            if (@item.Users_Details_Photo == null)
+            {
+               <img src="/images/1.jpg" id="img_title" class="img_title" />
+            }
+            else
+            {
+           <img src="/images/@item.Users_Details_Photo"  id="img_title" class="img_title" /> 
+            }
+                                    }
+                                <a href="#">
+                                    <img class="update_Head" id="update_Head" src="~/images/personal/update.png" />
+
+                                </a>
+                            </div>
+                        </td>
+                        <td><span style="margin-left: 10px; font-size: 20px; font-weight: bolder">姓名:
+                            @{
+            if (item.Users_Details_RealName == null)
+            {@:未填
+                            }
+            else
+            {@item.Users_Details_RealName
+            }}</span>
+                            <hr style="margin-top: 5px" />
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div style="margin-top: -30px; color: #808080;">
+                                <span>昵称：
+                                @{
+            if (item.Users_Details_Name == null)
+            {
+                                    @:未填
+                                    }
+            else
+            {
+                                    @item.Users_Details_Name
+            }
+                                }</span>&nbsp;|<span style="margin-left: 20px">职位：
+                                @{
+            if (item.Users_Details_Jop == null)
+            {
+                                    @:未填
+                                    }
+            else
+            {
+                                    @item.Users_Details_Jop
+            }
+                                }</span>&nbsp;|<span style="margin-left: 20px">性别:
+                                    @{
+            if (item.Users_Details_Sex == 0)
+            {
+                                        @:男
+                                        }
+            else if (item.Users_Details_Sex == 1)
+            {
+                                        @:女
+                                         }
+            else
+            { 
+                                        @:未填
+                                        }
+                                    }</span>&nbsp;|<span style="margin-left: 20px">生日:@{
+            if (item.Users_Details_Birthday == null)
+            {
+                                        @:未填
+            }
+            else
+            {
+                                        @item.Users_Details_Birthday
+            }
+                                    }</span>&nbsp;|<span style="margin-left: 20px">行业:@{
+                                            
+            if (item.Users_Details_Industry == null)
+            {
+                                        @:未填
+            }
+            else
+            {
+                                        @item.Users_Details_Industry
+            }
+                                            
+                                    }
+                                    </span>
+                                &nbsp;|<span style="margin-left: 20px">地址:@{
+            if (item.Users_Details_LoginUrl == null)
+            { 
+                                    @:未填
+            }
+            else
+            {
+                                    @item.Users_Details_LoginUrl
+            }
+                                }</span>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td><span style="color: #808080">备注:@{
+                            
+            if (item.Users_Details_Resume == null)
+            { 
+                            @:未填
+            }
+            else
+            {
+            
+                            @item.Users_Details_Resume
+                
+            }
+                        }</span></td>
+                    </tr>
+                    <tr>
+                        <td><span style="color: #808080">关注:</span><a href="#" style="text-decoration: none"><span style="font-size: 15px; font-weight: 700; color: red;">@item.Users_Details_Follow</span></a><span style="margin-left: 20px; color: #808080">粉丝:</span><a href="#" style="text-decoration: none"><span style="font-size: 15px; font-weight: 700; color: red;">@item.Users_Details_Etc</span></a></td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+            
+            <!--Layer隐藏域-->
+            <div hidden="hidden" class="User_Update" style="text-align: center;">
+
+                <form method="post" runat="server" class="layer_form" action="/Personal/Update_UserInfo" enctype="multipart/form-data">
+                    <div style="margin: 10px 20px; padding-top: 10px; position: relative">
+                        <div style="width: 100%">
+                            <span style="font-size: 13px; font-weight: 700">博客账号：</span><input  style="height: 20px; width: 82%;color:#ff7575;font-size:13px" type="text" readonly="true" value="@ViewBag.Ulogin_BlogName" />
+                        </div>
+                        <hr style="margin-top: 10px" />
+                        <div style="text-align: center; margin-top: -10px">
+                            <span style="font-size: 13px; font-weight: 700">昵称：<input style="height:20px;width:150px" name="Users_Details_Name" value="@item.Users_Details_Name" type="text" /></span>
+                            <span style="font-size: 13px; font-weight: 700; margin-left: 20px">真实姓名：<input style="height:20px;width:150px" type="text" name="Users_Details_RealName" value="@item.Users_Details_RealName" /></span>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px">
+                            <span style="font-size: 13px; font-weight: 700">职位：<input style="height:20px;width:150px" name="Users_Details_Jop" value="@item.Users_Details_Jop" type="text" /></span>
+                            <span style="font-size: 13px; font-weight: 700; margin-left: 20px">所属行业：<input placeholder="如：“Net软件工程师”" name="Users_Details_Industry" value="@item.Users_Details_Industry" style="height:20px;width:150px" type="text" /></span>
+                        </div>
+                        <div style="text-align:center;margin-top:10px" class="sex_div" sex_type="@item.Users_Details_Sex">
+                            <span style="font-size: 13px; font-weight: 700; margin-right: 60px">生日：<input style="width:180px;height:20px" name="Users_Details_Birthday" value="@item.Users_Details_Birthday" type="date"/></span>
+                            <span style="font-size: 13px; font-weight: 700; margin-left: 20px">性别：
+                                <label for="boy">
+                                    <input type="radio" id="boy" checked="checked" value="0" name="Users_Details_Sex" /><span style="margin-left: 10px">男</span></label>
+                                <label for="girl" style="margin-left: 10px">
+                                    <input type="radio" checked="checked" value="1" id="girl" name="Users_Details_Sex" /><span style="margin-left: 10px">女</span></label></span>
+                            <script>
+                                $(function () {
+
+                                    var sex = $(".sex_div").attr("sex_div");
+                                    if (sex == 1) {
+                                        $("#girl").attr("checked", "checked");
+                                    }
+
+                                })
+                            </script>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px">
+                            <span style="font-size: 13px; font-weight: 700;">地址：<input style="height:20px;width:85%" name="Users_Details_LoginUrl" type="text" value="@item.Users_Details_LoginUrl" /></span>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px">
+                            <span style="font-size: 13px; font-weight: 700; float: left; margin-left: 18px">备注：</span><textarea style="resize: none; width: 84%; float: left" name="Users_Details_Resume" rows="4">@item.Users_Details_Resume</textarea>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+            
+            <div hidden="hidden" id="Update_img" style="float: right">
+                <form runat="server" method="post" id="form_img" action="/Personal/Update_Heed" enctype="multipart/form-data">
+                    <input type="file" name="myhead" class="btn_file" />
+              @*      <input type="button" value="提交"  style="margin-left: 11px; margin-top: 60px;position:absolute" id="sub" />*@
+                    <img style="border-radius: 50%; width: 100px; height: 100px; margin-left:150px; margin-top: -10px;" id="_img" src="" />
+                </form>
+            </div>
+          
+        }
+        <script>
+            $(function () {
+                $(".img_title").mouseover(function () {
+                    $("#update_Head").removeClass("update_Head");
+                    $("#update_Head").addClass("update_Head2")
+                })
+                $(".img_title").mouseleave(function () {
+                    $("#update_Head").removeClass("update_Head2");
+                    $("#update_Head").addClass("update_Head")
+                })
+            })
+        </script>
+    </div>
+
+</div>
+
+<div style="width: 90%; margin: 0 auto; background-color: white;">
+    <div class="type_personal">
+        <div class="type_My" id="type_blog">我的博客</div>
+        @*<div class="type_My" id="type_save">我的收藏</div>*@
+        <div class="type_My" id="type_relation">我的关系</div>
+    </div>
+    <div class="content_blog" id="type_blog_div">
+        <table style="width: 100%; margin-top: 20px; margin-bottom: 100px">
+            <tr>
+                <td style="text-align: right;" colspan="2"><a href="/Personal/Personal_Blog" style="color: red; margin-right: 10px; text-decoration: none"><span>文章管理</span></a><hr style="margin-top: 10px" />
+                </td>
+            </tr>
+            <tr style="font-size: 13px">
+                <td><a href="#" style="margin-left: 10px;"><span>文章一标题</span></a></td>
+                <td style="text-align: right"><span style="margin-right: 30px">时间</span></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr />
+                </td>
+            </tr>
+            <tr style="font-size: 13px">
+                <td><a href="#" style="margin-left: 10px"><span>文章2标题</span></a></td>
+                <td style="text-align: right"><span style="margin-right: 30px">时间</span></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="content_blog" id="type_save_div" hidden="hidden" style="padding-bottom: 50px; padding-left: 20px; padding-top: 30px;">
+        <div>
+            <table style="width: 100%">
+                <tr>
+                    <td><a href="#"><span>标题</span></a></td>
+                    <td><a href="#"><span>博主</span></a></td>
+                    <td><span>时间</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="index_div" hidden="hidden" id="type_relation_div">
+
+        <div class="notice">
+            <ul>
+                <li class="notice_type" type="MyNotice" ><span>我的关注</span></li>
+                <li class="notice_type" type="HeNotice"><span>关注我的</span></li>
+              @*  <li class="notice_type" type="Notices"><span>相互关注</span></li>*@
+            </ul>
+        </div>
+        <div id="notice_ul">
+           <div class="vue_Huzhu" v-if="NoticeList ===''||NoticeList===null">
+                <span>请选择关系类型.....</span>
+           </div>
+          <div v-else>
+               <ul class="notice_ul" hidden="hidden">
+                 <li class="notice_li" v-for="noticeobj in NoticeList">
+               
+                    <dl>
+                        <dt>
+                            <div v-if="noticeobj.Users_Details_Photo===null">
+                                <img class="notice_img" src="/images/1.jpg" />
+                            </div>
+                             <div v-else>
+                                <img class="notice_img" :src="'/images/'+noticeobj.Users_Details_Photo" />
+                              </div>
+                           </dt>
+                        <dd class="connection_name">&nbsp;{{noticeobj.Users_Details_Name}}</dd>
+                        <dd class="connection_desc">{{noticeobj.Users_Details_Resume}}</dd>
+                    </dl>
+                </li>
+            </ul>
+
+          </div>
+        </div>
+    </div>
+</div>
+
+<script src="/JavaScript/Personal/vue2.2.4.js"></script>
+
+
+<script>
+
+    $(function () {
+        $(".notice_type").click(function () {
+            $(this).siblings().removeClass("notice_Click_behind");
+            $(this).addClass("notice_Click_behind");
+
+            $(".vue_Huzhu").attr("hidden", "hidden");
+            $(".notice_ul").removeAttr("hidden");
+
+            var notice_type = $(this).attr("type");
+            $.ajax({
+                type: "post",
+                url: "/Personal/Notice_Center",
+                data: "notice_type=" + notice_type,
+                success: function (result) {
+                    //反序列化
+                    var jsonobj = JSON.parse(result);
+
+                    var notice_vue = new Vue({
+                        el: "#notice_ul",
+                        data: {
+                            NoticeList: ""
+                        }
+                    });
+                    notice_vue.$data.NoticeList = jsonobj;
+
+                    if (notice_vue.$data.NoticeList == "" || notice_vue.$data.NoticeList == null) {
+                        $(".notice_ul").attr("hidden", "hidden");
+                    }
+                    else {
+                        $(".notice_ul").removeAttr("hidden");
+                    }
+
+                    console.log(notice_vue.$data.NoticeList);
+
+                }
+            });
+
+        })
+    })
+
+</script>
+
+<script>
+    $(function () {
+        $(".type_personal").find("div").each(function (index, item) { if (index == 0) { $(item).addClass("type_My_click"); } }); $(".type_My").click(function () {
+            $(this).siblings().removeClass("type_My_click"); $(this).addClass("type_My_click");
+        })
+        $("#type_blog").click(function () { $("#type_blog_div").removeAttr("hidden"); $("#type_save_div").attr("hidden", "hidden"); $("#type_relation_div").attr("hidden", "hidden"); })
+        $("#type_save").click(function () { $("#type_blog_div").attr("hidden", "hidden"); $("#type_save_div").removeAttr("hidden"); $("#type_relation_div").attr("hidden", "hidden"); })
+        $("#type_relation").click(function () { $("#type_blog_div").attr("hidden", "hidden"); $("#type_save_div").attr("hidden", "hidden"); $("#type_relation_div").removeAttr("hidden"); })
+    })
+</script>

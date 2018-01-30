@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "登录";
+}
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>登录</title>
+    <link href="~/Content/CSS/login/common.css" rel="stylesheet" />
+    <link href="~/Content/CSS/login/reset.css" rel="stylesheet" />
+    <script src="~/Content/JS/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Content/Vue/vue2.2.4.js"></script>
+    <script src="~/Content/Vue/jquery.min.js"></script>
+    <script src="~/Content/JS/Verification.js"></script>
+    <script>
+     
+        $(function () {
+            var _ve = new Vue({
+                el: "#loginform",
+                data: {
+                    username: "",
+                    password: ""
+                }
+            });
+            //监控手机号的输入，验证手机号是否符合规则
+            _ve.$watch("username", function (newValue, oldVlue) {
+                if ((newValue.length >= 11 && !$.isPoneAvailable(newValue)) || isNaN(newValue)) {
+                    $("#username").addClass("color_red");
+                }
+                else {
+                    $("#username").removeClass("color_red");
+                }
+            });
+
+            
+            
+
+            $("#but").click(function () {
+                var _username = $("#username");
+                var _password = $("#password");
+                //验证手机号是否输入
+                if (_username.val() == null || _username.val() == "") {
+                    $.Message(_username.prop("placeholder") + "不能为空");
+                    return;
+                }
+                //验证密码是否输入
+                if (_password.val() == null || _password.val() == "") {
+                    $.Message(_password.prop("placeholder") + "不能为空");
+                    return;
+                }
+                //验证手机号
+                if (_username.attr("class") == "color_red" || !$.isPoneAvailable(_username.val()))
+                {
+                    $.Message("输入的手机号格式不正确");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Login/Login_Verification",
+                    data: _ve.$data,
+                    type: "post",
+                    success: function (_result) {
+                        if (_result.Result_Code == "000000") {
+                            location.href = "/Home/Index";
+                        }
+                        else {
+                            $.Message(_result.Result_Title);
+                        }
+                    }
+                });
+            });
+
+            //按回车自动验证输入，并请求后台
+            $(document).keydown(function (event) {
+                var len = $("div[type=dialog]").length;
+
+                if (event.key == "Enter" && len <= 0) {
+                    $("#but").click();
+                }
+                else {
+                    layer.closeAll();
+                    layer.closeAll();
+                }
+
+
+            });
+        });
+    </script>
+
+    <style>
+        .color_red {
+            color: red !important;
+        }
+
+        .border_red_2 {
+            border:2px solid red !important;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="wrap login_wrap">
+        <div class="user_menu">
+
+            <div class="logo"></div>
+
+            <div class="login_box">
+
+                <div class="login_form">
+                    <div class="login_title">
+                        登录
+                    </div>
+                    <div id="loginform">
+
+                        <div class="form_text_ipt" style="box-shadow: none;">
+                            <input name="username" id="username" v-model="username" type="text" placeholder="手机号" />
+                        </div>
+                        <div class="form_text_ipt" style="box-shadow: none;">
+                            <input name="password" id="password" v-model="password" type="password" placeholder="密码" />
+                        </div>
+                        <div class="form_check_ipt">
+                            @*<div class="left check_left">
+                                <label>
+                                    <input name="" type="checkbox" />
+                                    下次自动登录</label>
+                            </div>*@
+                            <div class="right check_right">
+                                <a href="/Login/ForgetThePassword">忘记密码？</a>
+                            </div>
+                        </div>
+                        <div class="form_btn">
+                            <button type="button" id="but">登录</button>
+                        </div>
+                        <div class="form_reg_btn">
+                            <span>还没有帐号？</span><a href="/Login/Register">马上注册</a>
+                        </div>
+                    </div>
+                    <div class="other_login">
+                        <div class="left other_left">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

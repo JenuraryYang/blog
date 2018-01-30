@@ -1,0 +1,457 @@
+﻿@{
+    ViewBag.Title = "Index";
+
+    //使用指定的布局页
+    Layout = "~/views/shared/Index_Top_Layout.cshtml";
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>首页</title>
+    <link href="~/CSS/styles.css" rel="stylesheet" />
+    <script src="~/JavaScript/jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            $(".nav li").click(function () {
+
+                $(this).addClass("nav_li");
+                $(this).siblings().removeClass("nav_li");
+
+                //热门新闻切换条
+                if ($(".nav").children("li:first").hasClass("nav_li") == false) {
+
+                    $("#hot24").addClass("div_Cent");
+                    $("#new24").removeClass("div_Cent");
+                }
+                if ($(".nav").children("li:last").hasClass("nav_li") == false) {
+                    $("#new24").addClass("div_Cent");
+                    $("#hot24").removeClass("div_Cent");
+
+                }
+            });
+
+
+            choimenu(0);
+        });
+    </script>
+    <style>
+        .span_li {
+            font-family: STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑";
+            font-weight: 600;
+            color: #444343;
+        }
+
+            .span_li:hover {
+                color: red;
+            }
+
+        li:hover {
+            background-color: #e6e7e8;
+        }
+
+        .dt_li {
+            float: left;
+            color: #0a9bef;
+            font-weight: 400;
+        }
+
+        .font_li {
+            font-size: 13px;
+            color: #999999;
+            margin-top: 7px;
+        }
+
+        .dd_li {
+            margin-left: -6px;
+            margin-top: 7px;
+            font-size: 13px;
+            color: #999999;
+        }
+            .dd_li a:hover {
+                color:red;
+            }
+            .dd_li dd {
+                float: left;
+                margin: 10px;
+            }
+
+        .right_box {
+            width: 100%;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+            background: none repeat scroll 0% 0% #FFF;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .feed_tab_tit {
+            margin-left: -15px;
+            margin-right: -15px;
+            margin-top: -15px;
+        }
+
+        .nav {
+            padding-left: 0px;
+            margin-bottom: 0px;
+            list-style: none outside none;
+        }
+
+        .active {
+            width: 50%;
+            text-align: center;
+            margin-bottom: -2px;
+            float: left;
+            font-family: Microsoft YaHei;
+        }
+
+        .nav_li {
+            border-bottom: 2px solid red;
+            display: block;
+        }
+
+        .active a {
+            color: black;
+        }
+
+        .div_Cent {
+            display: none;
+        }
+
+        .hot_ul {
+            width: 99%;
+            height: 99%;
+            /*border: 1px solid #f00;*/
+            margin: 15px auto;
+            list-style-type: none;
+        }
+
+            .hot_ul a {
+                color: #555252;
+                font-family: Microsoft YaHei;
+                font-size: 14px;
+            }
+
+                .hot_ul a:hover {
+                    color: red;
+                }
+
+        .feed_new_tit {
+            font-size: 16px;
+            color: #4F4F4F;
+            height: 28px;
+            margin-bottom: 7px;
+        }
+
+        .line {
+            display: block;
+            float: left;
+            width: 3px;
+            height: 15px;
+            background: none repeat scroll 0% 0% #CF2730;
+            overflow: hidden;
+            margin: 0px 5px 0px 0px;
+        }
+
+        .txt {
+            display: block;
+            float: left;
+            font-size: 16px;
+            color: #2C3033;
+        }
+    </style>
+</head>
+<body style="background: #f5f6f7">
+    @* 首页布局 *@
+    <div style="width: 1200px; margin-left: 70px; margin-top: 0px; overflow: hidden;">
+        <div style="width: 100%; height: 90px; float: left; margin: 0px">
+            @*广告位 *@
+            <div>
+                <div style="float: left">
+                    <a>
+                        <img src="~/images/GuangGao1.gif" style="width: 950px;"></a>
+                </div>
+                <div style="float: left">
+                    <a>
+                        <img src="~/images/GuangGao2.gif" style="width: 245px;"></a>
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 0px; width: 100%; float: left; overflow: hidden;">
+
+            <div style="height: 100%; width: 70%; float: left;">
+                @*  轮播图*@
+                <div class="csslider1 autoplay" style="float: left">
+                    <input name="cs_anchor1" autocomplete="off" id="cs_slide1_0" type="radio" class="cs_anchor slide">
+                    <input name="cs_anchor1" autocomplete="off" id="cs_slide1_1" type="radio" class="cs_anchor slide">
+                    <input name="cs_anchor1" autocomplete="off" id="cs_slide1_2" type="radio" class="cs_anchor slide">
+                    
+                    <input name="cs_anchor1" autocomplete="off" id="cs_play1" type="radio" class="cs_anchor" checked="">
+                    <input name="cs_anchor1" autocomplete="off" id="cs_pause1" type="radio" class="cs_anchor">
+                    <ul>
+                        <div style="width: 70%; visibility: hidden; font-size: 0px; line-height: 0;">
+                            <img src="/images/lunbo/ActionImg1.jpg" style="width: 828px; height: 350px">
+                        </div>
+                        @{
+                            List<MonkeyBlog.Carousel_figure> clist = ViewBag.clist as List<MonkeyBlog.Carousel_figure>;
+
+                            if (clist != null)
+                            {
+                                var num = -1;
+                                foreach (MonkeyBlog.Carousel_figure item in clist)
+                                {
+                                    ++num;
+                        
+                            <li class="num@{@num} img">
+                                <a href="#">
+                                    <img  src="/images/lunbo/@item.Carousel_Image" alt="@{@item.Carousel_Remark}" ></a>
+                            </li>
+                   
+                                }
+
+                            }
+                        }
+                    </ul>
+                    @* 轮播图片描述 *@
+                    <div class="cs_description">
+                        @{var num2 = -1;
+                          foreach (MonkeyBlog.Carousel_figure item2 in clist)
+                          {
+                              ++num2;
+                            <label class="num@{@num2}">
+                                <span class="cs_title"><span class="cs_wrapper" style="font-weight: 500">@item2.Carousel_Remark</span></span>
+                            </label>
+                
+                          }   
+                        }
+
+
+                    </div>
+
+                    <div class="cs_bullets">
+                        @{var num3 = -1;
+                          foreach (MonkeyBlog.Carousel_figure item3 in clist)
+                          {
+                              ++num3;
+                            <label class="num@{@num3}" for="cs_slide1_@{@num3}">
+                                <span class="cs_point"></span>
+                                <span class="cs_thumb">
+                                    <img src="/images/lunbo/@item3.Carousel_Image" style="width: 85px; height: 50px;" alt="@{@item3.Carousel_Remark}" ></span>
+                            </label>
+                
+                          }   
+                        }
+                        s
+                    </div>
+                </div>
+                @* 文章推荐*@
+
+                <div style="width: 99.3%; background: #fafafa; margin-top: 13px; height: 100%; float: left;">
+                    <ul>
+                        <li>
+                            <div style="border-bottom: #e2e2e0 solid 1px;">
+                                <div style="margin: 24px; margin-bottom: 50px">
+                                    <h3><a href="#"><span class="span_li">UFLDL教程笔记</span></a></h3>
+                                    <dl class="dd_li">
+                                        @*点击跳转博客分类*@
+                                        <dd class="dt_li"><a href="#">人工智能</a></dd>
+                                        @* 点击跳转个人中心*@
+                                        <dd style="margin-top: 7px;"><a href="#">
+                                            <img src="~/images/2.jpg" style="width: 16px; height: 16px" /></a></dd>
+                                        <dd><a href="#" class="font_li">姓名</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li">发布时间</a></dd>
+                                        @* 推荐理由*@
+                                        <dd class="font_li">最新文章</dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/liulan.PNG" style="height:12px;width:13px;margin-top:-5px"/>阅读数</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/pl.PNG"  style="height:12px;width:13px;margin-top:-5px"/>评论数量</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="border-bottom: #e2e2e0 solid 1px;">
+                                <div style="margin: 24px; margin-bottom: 50px">
+                                    <h3><a href="#"><span class="span_li">UFLDL教程笔记</span></a></h3>
+                                    <dl class="dd_li">
+                                        @*点击跳转博客分类*@
+                                        <dd class="dt_li"><a href="#">人工智能</a></dd>
+                                        @* 点击跳转个人中心*@
+                                        <dd style="margin-top: 7px;"><a href="#">
+                                            <img src="~/images/2.jpg" style="width: 16px; height: 16px" /></a></dd>
+                                        <dd><a href="#" class="font_li">姓名</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li">发布时间</a></dd>
+                                        @* 推荐理由*@
+                                        <dd class="font_li">最新文章</dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/liulan.PNG" style="height:12px;width:13px;margin-top:-5px"/>阅读数</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/pl.PNG"  style="height:12px;width:13px;margin-top:-5px"/>评论数量</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="border-bottom: #e2e2e0 solid 1px;">
+                                <div style="margin: 24px; margin-bottom: 50px">
+                                    <h3><a href="#"><span class="span_li">UFLDL教程笔记</span></a></h3>
+                                    <dl class="dd_li">
+                                        @*点击跳转博客分类*@
+                                        <dd class="dt_li"><a href="#">人工智能</a></dd>
+                                        @* 点击跳转个人中心*@
+                                        <dd style="margin-top: 7px;"><a href="#">
+                                            <img src="~/images/2.jpg" style="width: 16px; height: 16px" /></a></dd>
+                                        <dd><a href="#" class="font_li">姓名</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li">发布时间</a></dd>
+                                        @* 推荐理由*@
+                                        <dd class="font_li">最新文章</dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/liulan.PNG" style="height:12px;width:13px;margin-top:-5px"/>阅读数</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/pl.PNG"  style="height:12px;width:13px;margin-top:-5px"/>评论数量</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="border-bottom: #e2e2e0 solid 1px;">
+                                <div style="margin: 24px; margin-bottom: 50px">
+                                    <h3><a href="#"><span class="span_li">UFLDL教程笔记</span></a></h3>
+                                    <dl class="dd_li">
+                                        @*点击跳转博客分类*@
+                                        <dd class="dt_li"><a href="#">人工智能</a></dd>
+                                        @* 点击跳转个人中心*@
+                                        <dd style="margin-top: 7px;"><a href="#">
+                                            <img src="~/images/2.jpg" style="width: 16px; height: 16px" /></a></dd>
+                                        <dd><a href="#" class="font_li">姓名</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li">发布时间</a></dd>
+                                        @* 推荐理由*@
+                                        <dd class="font_li">最新文章</dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/liulan.PNG" style="height:12px;width:13px;margin-top:-5px"/>阅读数</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/pl.PNG"  style="height:12px;width:13px;margin-top:-5px"/>评论数量</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="border-bottom: #e2e2e0 solid 1px;">
+                                <div style="margin: 24px; margin-bottom: 50px">
+                                    <h3><a href="#"><span class="span_li">UFLDL教程笔记</span></a></h3>
+                                    <dl class="dd_li">
+                                        @*点击跳转博客分类*@
+                                        <dd class="dt_li"><a href="#">人工智能</a></dd>
+                                        @* 点击跳转个人中心*@
+                                        <dd style="margin-top: 7px;"><a href="#">
+                                            <img src="~/images/2.jpg" style="width: 16px; height: 16px" /></a></dd>
+                                        <dd><a href="#" class="font_li">姓名</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li">发布时间</a></dd>
+                                        @* 推荐理由*@
+                                        <dd class="font_li">最新文章</dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/liulan.PNG" style="height:12px;width:13px;margin-top:-5px"/>阅读数</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/pl.PNG"  style="height:12px;width:13px;margin-top:-5px"/>评论数量</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="border-bottom: #e2e2e0 solid 1px;">
+                                <div style="margin: 24px; margin-bottom: 50px">
+                                    <h3><a href="#"><span class="span_li">UFLDL教程笔记</span></a></h3>
+                                    <dl class="dd_li">
+                                        @*点击跳转博客分类*@
+                                        <dd class="dt_li"><a href="#">人工智能</a></dd>
+                                        @* 点击跳转个人中心*@
+                                        <dd style="margin-top: 7px;"><a href="#">
+                                            <img src="~/images/2.jpg" style="width: 16px; height: 16px" /></a></dd>
+                                        <dd><a href="#" class="font_li">姓名</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li">发布时间</a></dd>
+                                        @* 推荐理由*@
+                                        <dd class="font_li">最新文章</dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/liulan.PNG" style="height:12px;width:13px;margin-top:-5px"/>阅读数</a></dd>
+                                        @* 点击跳转文章详情*@
+                                        <dd><a href="#" class="font_li"><img src="~/images/lunbo/small/pl.PNG"  style="height:12px;width:13px;margin-top:-5px"/>评论数量</a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div style="height: 100%; width: 29.35%; float: left; margin-left: 6px; margin-top: 10px">
+                <div class="right_box">
+                    <div class="feed_tab_tit">
+                        <ul class="nav">
+                            <li class="active nav_li">
+                                <a>今日最热</a>
+                            </li>
+                            <li class="active">
+                                <a>今日最新</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div id="hot24">
+                            <ul class="hot_ul">
+                                <li style="margin: 10px auto"><a href="#">前端工作越来越难找，是不是已经饱和了？</a></li>
+                                <li style="margin: 10px auto"><a href="#">最全Pycharm教程（1）——定制外观</a></li>
+                                <li style="margin: 10px auto"><a href="#">这三种程序员，是时代的溺水者</a></li>
+                                <li style="margin: 10px auto"><a href="#">AI 时代，爱学习的程序员都关注了这些… </a></li>
+                                <li style="margin: 10px auto"><a href="#">前端工作越来越难找，是不是已经饱和了？</a></li>
+                                <li style="margin: 10px auto"><a href="#">最全Pycharm教程（1）——定制外观</a></li>
+                                <li style="margin: 10px auto"><a href="#">这三种程序员，是时代的溺水者</a></li>
+                                <li style="margin: 10px auto"><a href="#">AI 时代，爱学习的程序员都关注了这些… </a></li>
+                            </ul>
+                        </div>
+                        <div id="new24" class="div_Cent">
+                            <ul class="hot_ul">
+                                <li style="margin: 10px auto"><a href="#">(1)前端工作越来越难找，是不是已经饱和了？</a></li>
+                                <li style="margin: 10px auto"><a href="#">(2)最全Pycharm教程（1）——定制外观</a></li>
+                                <li style="margin: 10px auto"><a href="#">(3)这三种程序员，是时代的溺水者</a></li>
+                                <li style="margin: 10px auto"><a href="#">AI 时代，爱学习的程序员都关注了这些… </a></li>
+                                <li style="margin: 10px auto"><a href="#">前端工作越来越难找，是不是已经饱和了？</a></li>
+                                <li style="margin: 10px auto"><a href="#">最全Pycharm教程（1）——定制外观</a></li>
+                                <li style="margin: 10px auto"><a href="#">这三种程序员，是时代的溺水者</a></li>
+                                <li style="margin: 10px auto"><a href="#">AI 时代，爱学习的程序员都关注了这些… </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right_box">
+                    <h3 class="feed_new_tit">
+                        <span class="line"></span><span class="txt">活动日历</span>
+                    </h3>
+                    <div class="feed_activiey_calendar">
+                        <ul class="csdn-tracking-statistics" data-mod="popu_593" data-dsm="post">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div style="heighT: 0px; overflow: hidden; clear: both; widtH: 100%;"></div>
+    </div>
+
+
+    @section footerSection{
+
+        <div class="copyright wow fadeInDown" data-wow-duration=".8s" data-wow-delay=".2s">
+            <div class="container">
+                <p>Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">猿博客</a></p>
+            </div>
+        </div>
+
+    }
+
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/CSS/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="~/CSS/style.css" rel='stylesheet' type='text/css' />
+    <script src="~/JavaScript/jquery-1.11.1.min.js"></script>
+    <script src="~/JavaScript/bootstrap.min.js"></script>
+    <link href="~/media/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/CSS/top/style.css" rel="stylesheet" />
+    <script src="~/JavaScript/jquery-2.1.1.min.js"></script>
+    <style>
+        .cur {
+            width: 50%;
+            color: red;
+            border-bottom: 1px outset red;
+            /*text-align: center;
+            margin-bottom: -2px;*/
+        }
+
+        #conten div {
+            float: left;
+        }
+
+        .active {
+            width: 50%;
+            text-align: center;
+            margin-bottom: -2px;
+            float: left;
+            font-family: Microsoft YaHei;
+        }
+
+        .head_li li {
+            float: left;
+            list-style-type: none;
+            margin-left: 5px;
+        }
+
+        #header {
+            width: 700px;
+            margin-left: 136px;
+            margin-top: 2px;
+            height: 60px;
+        }
+
+            #header a:hover {
+                color: red;
+            }
+
+            #header span {
+                font-size: 18px;
+                font-weight: 600;
+                /*font-family: 创艺简老宋;*/
+            }
+
+        #conten a:hover {
+            color: red;
+        }
+
+        .login_showNone {
+            display: none;
+        }
+
+        .userControl {
+            display: none;
+            position: absolute;
+            padding-top: 9px;
+            padding-bottom: -12px;
+            top: 60px;
+            right: -14px;
+            z-index: 99999;
+            background-color: #fff;
+            border-radius: 0 0 4px 4px;
+            width: 110px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,.1);
+        }
+            #MyBo li {
+                /*float:left;*/
+                list-style-type:none;
+                text-align:center;
+                margin:9px auto;
+            }
+    </style>
+    <script>
+
+        var choimenu = function (_index) {
+
+            $("#header > a").eq(_index).addClass("cur");
+        }
+        $(function () {
+            $("#img_info").mouseenter(function () {
+                $(".userControl").css("display", "block");
+
+            });
+            $("#MyBo").mouseleave(function () {
+
+                $(".userControl").css("display", "none");
+            });
+        })
+    </script>
+
+</head>
+<body>
+    <div class="header" style="height: 60px" id="ban">
+        <div class="container">
+            @*搜索栏*@
+            <div class="head-left wow fadeInLeft animated animated animated" data-wow-delay=".1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                <div class="header-search">
+                    <div class="search">
+                        <label for="search_box">
+                            <img src="~/images/seach.jpg" class="glyphicon glyphicon-search" />
+                        </label>
+                        <input class="search_box" type="checkbox" id="search_box">
+
+                        <div class="search_form">
+                            <form action="#" method="post">
+                                <input type="text" name="Search" placeholder="搜索...">
+                                <input type="submit" value="确定">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img style="width: 120px; height: 40px; margin-top: -90px; margin-left: 15px" src="~/images/logo_m.png" />
+                </div>
+            </div>
+            <div id="header">
+                <ul class="head_li">
+                    <li><a href="/home/index"><span>首页</span></a></li>
+                      <li><a href="/WriteBlog/WriteBlogIndex"  target="_blank"><span>写博客</span></a></li>
+                    <li><a href="/Personal/index"><span>个人中心</span></a></li>
+                    <li><a href="/PersonalBlog/PeraonalCommentIndex"><span>查看评论</span></a></li>
+                    <li><a href="/PersonalBlog/MyCommentIndex"><span>我评论的</span></a></li>
+                    <li><a href="#"><span>商城</span></a></li>
+                    <li><a href="#"><span>头条</span></a></li>
+                    <li><a href="#"><span>活动</span></a></li>
+                    <li><a href="#"><span>推荐</span></a></li>
+                    <li><a href="#"><span>下载</span></a></li>
+                    <li><a href="#"><span>程序人生</span></a></li>
+                </ul>
+            </div>
+
+        </div>
+        @*状态栏*@
+
+        <div>
+
+            <div>
+                <div style="width: 500px; margin-top: -75px; margin-left: 820px;" id="conten">
+                    <div style="margin-left: 10px">
+                        <form method="post" name="form1">
+                            <input type="text" placeholder="搜索..." style="height: 30px; border: 0px; border-radius: 5px; border: 1px solid lightgray" required="">
+                            <input type="submit" class="btn btn-1 btn-info" value="搜索" style="margin-top: -6px">
+                        </form>
+                    </div>
+
+                    <div style="margin-left: 22px; margin-top: 6px">
+                        <a href="#" ><span><i class="icon-edit" style="color: red;"></i>写博客</span></a>
+                        <a href="#"><span><i class="icon-share" style="color: orange"></i>发Chat</span></a>
+                    </div>
+                    <div id="loginDiv" style="margin-left: 169px; margin-top: -21px">
+                        @{
+                            //已登录
+                            if (Session["user"] != null)
+                            {
+                            <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; margin-top: -10px;float:left;margin-left:10px;">
+                                <a href="#" id="img_info">
+                                    <img src="~/images/3.jpg" style="width: 37px; height: 37px; border-radius: 50%;" />
+                                </a>
+                            </div>
+                            <div class="userControl" style="float:left" id="MyBo">
+                                <ul >
+                                    <li><a href="#" target="_blank">我的博客</a></li>
+                                    <li><a href="#" target="_blank">设置</a></li>
+                                    <li><a href="#" target="_blank">反馈</a></li>
+                                    <li><a href="/home/index?way=logOut">退出</a></li>
+                                </ul>
+
+                            </div>
+                            }
+                            else
+                            {
+                            <div>
+                                <a href="/login/loginindex"><span>登录</span></a>
+                                <a href="#"><span>|</span></a>
+                                <a href="/login/Register"><span>注册</span></a>
+                            </div>
+                            }
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <div style="bottom: 0px">
+
+        @RenderSection("footerSection", false)
+
+    </div>
+</body>
+</html>

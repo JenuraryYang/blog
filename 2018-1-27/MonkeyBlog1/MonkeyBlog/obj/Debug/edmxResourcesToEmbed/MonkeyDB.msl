@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BlogModelStoreContainer" CdmEntityContainer="MonkeyDBEntities">
+    <EntitySetMapping Name="AdminUser">
+      <EntityTypeMapping TypeName="BlogModel.AdminUser">
+        <MappingFragment StoreEntitySet="AdminUser">
+          <ScalarProperty Name="AdminUser_Id" ColumnName="AdminUser_Id" />
+          <ScalarProperty Name="AdminUser_Number" ColumnName="AdminUser_Number" />
+          <ScalarProperty Name="AdminUser_Pwd" ColumnName="AdminUser_Pwd" />
+          <ScalarProperty Name="Users_Details_ID" ColumnName="Users_Details_ID" />
+          <ScalarProperty Name="AdminUser_IsSuper" ColumnName="AdminUser_IsSuper" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Auditing_Blog">
+      <EntityTypeMapping TypeName="BlogModel.Auditing_Blog">
+        <MappingFragment StoreEntitySet="Auditing_Blog">
+          <ScalarProperty Name="Auditing_Blog_Id" ColumnName="Auditing_Blog_Id" />
+          <ScalarProperty Name="AdminUser_Id" ColumnName="AdminUser_Id" />
+          <ScalarProperty Name="Write_blog_Id" ColumnName="Write_blog_Id" />
+          <ScalarProperty Name="Auditing_Blog_State" ColumnName="Auditing_Blog_State" />
+          <ScalarProperty Name="Auditing_Blog_Time" ColumnName="Auditing_Blog_Time" />
+          <ScalarProperty Name="Auditing_Blog_Msg" ColumnName="Auditing_Blog_Msg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Backstage_Category">
+      <EntityTypeMapping TypeName="BlogModel.Backstage_Category">
+        <MappingFragment StoreEntitySet="Backstage_Category">
+          <ScalarProperty Name="Backstage_Category_Id" ColumnName="Backstage_Category_Id" />
+          <ScalarProperty Name="Backstage_Category_Type" ColumnName="Backstage_Category_Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Carousel_figure">
+      <EntityTypeMapping TypeName="BlogModel.Carousel_figure">
+        <MappingFragment StoreEntitySet="Carousel_figure">
+          <ScalarProperty Name="Carousel_Id" ColumnName="Carousel_Id" />
+          <ScalarProperty Name="Carousel_Image" ColumnName="Carousel_Image" />
+          <ScalarProperty Name="Write_blog_Id" ColumnName="Write_blog_Id" />
+          <ScalarProperty Name="Carousel_Remark" ColumnName="Carousel_Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="BlogModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+          <ScalarProperty Name="Category_Type" ColumnName="Category_Type" />
+          <ScalarProperty Name="ULogin_Id" ColumnName="ULogin_Id" />
+          <ScalarProperty Name="Category_Reception" ColumnName="Category_Reception" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comment">
+      <EntityTypeMapping TypeName="BlogModel.Comment">
+        <MappingFragment StoreEntitySet="Comment">
+          <ScalarProperty Name="Comment_Id" ColumnName="Comment_Id" />
+          <ScalarProperty Name="Comment_User" ColumnName="Comment_User" />
+          <ScalarProperty Name="Comment_Time" ColumnName="Comment_Time" />
+          <ScalarProperty Name="Write_blog_Id" ColumnName="Write_blog_Id" />
+          <ScalarProperty Name="Comment_Content" ColumnName="Comment_Content" />
+          <ScalarProperty Name="ULogin_Id" ColumnName="ULogin_Id" />
+          <ScalarProperty Name="Comment_deletedate" ColumnName="Comment_deletedate" />
+          <ScalarProperty Name="Parent_Comment_Id" ColumnName="Parent_Comment_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FollowUser">
+      <EntityTypeMapping TypeName="BlogModel.FollowUser">
+        <MappingFragment StoreEntitySet="FollowUser">
+          <ScalarProperty Name="FollowUser_ID" ColumnName="FollowUser_ID" />
+          <ScalarProperty Name="FollowUser_User1" ColumnName="FollowUser_User1" />
+          <ScalarProperty Name="FollowUser_User2" ColumnName="FollowUser_User2" />
+          <ScalarProperty Name="FollowUser_Remark" ColumnName="FollowUser_Remark" />
+          <ScalarProperty Name="FollowUser_FollowDate" ColumnName="FollowUser_FollowDate" />
+          <ScalarProperty Name="FollowUser_CancelData" ColumnName="FollowUser_CancelData" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KeyWord">
+      <EntityTypeMapping TypeName="BlogModel.KeyWord">
+        <MappingFragment StoreEntitySet="KeyWord">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="KeyWord_Val" ColumnName="KeyWord_Val" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Special">
+      <EntityTypeMapping TypeName="BlogModel.Special">
+        <MappingFragment StoreEntitySet="Special">
+          <ScalarProperty Name="Special_Id" ColumnName="Special_Id" />
+          <ScalarProperty Name="Special_Name" ColumnName="Special_Name" />
+          <ScalarProperty Name="Special_Introduce" ColumnName="Special_Introduce" />
+          <ScalarProperty Name="ULogin_Id" ColumnName="ULogin_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ULogin">
+      <EntityTypeMapping TypeName="BlogModel.ULogin">
+        <MappingFragment StoreEntitySet="ULogin">
+          <ScalarProperty Name="ULogin_Id" ColumnName="ULogin_Id" />
+          <ScalarProperty Name="ULogin_Phone" ColumnName="ULogin_Phone" />
+          <ScalarProperty Name="ULogin_Email" ColumnName="ULogin_Email" />
+          <ScalarProperty Name="ULogin_Password" ColumnName="ULogin_Password" />
+          <ScalarProperty Name="Ulogin_BlogName" ColumnName="Ulogin_BlogName" />
+          <ScalarProperty Name="Users_Details_ID" ColumnName="Users_Details_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users_Details">
+      <EntityTypeMapping TypeName="BlogModel.Users_Details">
+        <MappingFragment StoreEntitySet="Users_Details">
+          <ScalarProperty Name="Users_Details_ID" ColumnName="Users_Details_ID" />
+          <ScalarProperty Name="Users_Details_Name" ColumnName="Users_Details_Name" />
+          <ScalarProperty Name="Users_Details_RealName" ColumnName="Users_Details_RealName" />
+          <ScalarProperty Name="Users_Details_Jop" ColumnName="Users_Details_Jop" />
+          <ScalarProperty Name="Users_Details_Sex" ColumnName="Users_Details_Sex" />
+          <ScalarProperty Name="Users_Details_Photo" ColumnName="Users_Details_Photo" />
+          <ScalarProperty Name="Users_Details_Birthday" ColumnName="Users_Details_Birthday" />
+          <ScalarProperty Name="Users_Details_Industry" ColumnName="Users_Details_Industry" />
+          <ScalarProperty Name="Users_Details_Follow" ColumnName="Users_Details_Follow" />
+          <ScalarProperty Name="Users_Details_Etc" ColumnName="Users_Details_Etc" />
+          <ScalarProperty Name="Users_Details_LoginDate" ColumnName="Users_Details_LoginDate" />
+          <ScalarProperty Name="Users_Details_Delete" ColumnName="Users_Details_Delete" />
+          <ScalarProperty Name="Users_Details_LoginUrl" ColumnName="Users_Details_LoginUrl" />
+          <ScalarProperty Name="Users_Details_Resume" ColumnName="Users_Details_Resume" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Write_blog">
+      <EntityTypeMapping TypeName="BlogModel.Write_blog">
+        <MappingFragment StoreEntitySet="Write_blog">
+          <ScalarProperty Name="ULogin_IdIsManager" ColumnName="ULogin_IdIsManager" />
+          <ScalarProperty Name="Write_blog_Id" ColumnName="Write_blog_Id" />
+          <ScalarProperty Name="Write_Title" ColumnName="Write_Title" />
+          <ScalarProperty Name="Write_ArticleType" ColumnName="Write_ArticleType" />
+          <ScalarProperty Name="Write_Content" ColumnName="Write_Content" />
+          <ScalarProperty Name="Backstage_Category_Id" ColumnName="Backstage_Category_Id" />
+          <ScalarProperty Name="Write_Label" ColumnName="Write_Label" />
+          <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+          <ScalarProperty Name="Write_Private" ColumnName="Write_Private" />
+          <ScalarProperty Name="ULogin_Id" ColumnName="ULogin_Id" />
+          <ScalarProperty Name="Write_Createdate" ColumnName="Write_Createdate" />
+          <ScalarProperty Name="Write_Deletedate" ColumnName="Write_Deletedate" />
+          <ScalarProperty Name="Write_State" ColumnName="Write_State" />
+          <ScalarProperty Name="Write_IsDel" ColumnName="Write_IsDel" />
+          <ScalarProperty Name="Write_ReadCount" ColumnName="Write_ReadCount" />
+          <ScalarProperty Name="Write_ZanCount" ColumnName="Write_ZanCount" />
+          <ScalarProperty Name="Write_Collection" ColumnName="Write_Collection" />
+          <ScalarProperty Name="Blog_Recommend" ColumnName="Blog_Recommend" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Blog_Comment">
+      <EntityTypeMapping TypeName="BlogModel.Blog_Comment">
+        <MappingFragment StoreEntitySet="Blog_Comment">
+          <ScalarProperty Name="BC_Comment" ColumnName="BC_Comment" />
+          <ScalarProperty Name="BC_Comment_Time" ColumnName="BC_Comment_Time" />
+          <ScalarProperty Name="BC_Comment_ParentId" ColumnName="BC_Comment_ParentId" />
+          <ScalarProperty Name="BC_ForUserID" ColumnName="BC_ForUserID" />
+          <ScalarProperty Name="BC_UserID" ColumnName="BC_UserID" />
+          <ScalarProperty Name="BC_BlogID" ColumnName="BC_BlogID" />
+          <ScalarProperty Name="BC_ArticleID" ColumnName="BC_ArticleID" />
+          <ScalarProperty Name="BC_CommentId" ColumnName="BC_CommentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

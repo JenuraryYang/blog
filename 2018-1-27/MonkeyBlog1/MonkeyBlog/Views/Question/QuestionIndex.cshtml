@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "QuestionIndex";
+    Layout = "~/views/shared/Index_Top_Layout.cshtml";
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>问答</title>
+    <link href="~/content/CSS/styles.css" rel="stylesheet" />
+    <script>
+        new WOW().init();
+    </script>
+</head>
+<body>
+@*    @Html.Partial("~/Views/Share/Top_Partial.cshtml")*@
+   @* @Html.Partial("~/Views/Share/Toptwo_Partial.cshtml")*@
+    <div style="margin-left: 70px">
+    </div>
+    <!-- technology-left -->
+    <div class="technology">
+        
+    @Html.Partial("~/Views/Share/QuestionTop_Partial.cshtml")
+        
+        <div class="container">
+            <div class="col-md-9 technology-left">
+                <div class="tech-no">
+                    <div class="wthree">
+                        
+                        <div class="col-md-6 wthree-right wow fadeInDown" data-wow-duration=".8s" data-wow-delay=".2s">
+                            <h3><a href="singlepage.html">标题</a></h3>
+                            <h6>BY <a href="singlepage.html">ADAM ROSE </a>JULY 10 2016.</h6>
+                            <p>一部分内容...</p>
+                            <div class="bht1">
+                                <a href="~/Question/Questions">阅读更多</a>
+                            </div>
+                            <div class="soci">
+                                <ul>
+
+                                    <li class="hvr-rectangle-out"><a class="twit" href="#"></a></li>
+                                    <li class="hvr-rectangle-out"><a class="pin" href="#"></a></li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="tech-no">
+                    <div class="wthree">
+                        
+                        <div class="col-md-6 wthree-right wow fadeInDown" data-wow-duration=".8s" data-wow-delay=".2s">
+                            <h3><a href="singlepage.html">标题</a></h3>
+                            <h6>BY <a href="singlepage.html">ADAM ROSE </a>JULY 10 2016.</h6>
+                            <p>一部分内容...</p>
+                            <div class="bht1">
+                                <a href="singlepage.html">阅读更多</a>
+                            </div>
+                            <div class="soci">
+                                <ul>
+
+                                    <li class="hvr-rectangle-out"><a class="twit" href="#"></a></li>
+                                    <li class="hvr-rectangle-out"><a class="pin" href="#"></a></li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            @Html.Partial("~/Views/Share/Right_Partial.cshtml");
+        </div>
+    </div>
+    <div class="copyright wow fadeInDown" data-wow-duration=".8s" data-wow-delay=".2s">
+        <div class="container">
+            <p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+        </div>
+    </div>
+</body>
+</html>
+

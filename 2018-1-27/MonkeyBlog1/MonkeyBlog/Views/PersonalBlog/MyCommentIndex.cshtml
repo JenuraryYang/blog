@@ -1,0 +1,250 @@
+﻿@{
+    ViewBag.Title = "我评论的";
+
+}
+
+@using MonkeyBlog.DTO
+
+
+@{
+    List<BC_CommentDTO> bcdlist = ViewBag.bcdlist as List<BC_CommentDTO>;
+    
+}
+
+<link href="~/Content/bs/css/bootstrap.css" rel="stylesheet" />
+<script src="~/Content/bs/js/jquery.min.js"></script>
+<script src="~/Content/bs/js/bootstrap.js"></script>
+<link href="~/Content/layer/mobile/need/layer.css" rel="stylesheet" />
+<link href="~/Content/getpage/css/page.css" rel="stylesheet" />
+<script src="~/Content/layer/layer.js"></script>
+<script src="~/Content/getpage/js/jqPaginator.js"></script>
+
+<style>
+
+        .page{
+        padding:0px;
+    
+}
+    .active {
+        width:inherit;
+ 
+}
+</style>
+
+<script>
+    $(function () {
+
+        //查看详情
+        $(".watch").click(function () {
+
+            var needtr = $(this).parent().parent();
+
+            var tds = needtr.find("td");
+
+            $("#Ulogin_BlogName").val(tds.eq(1).html());
+            $("#BC_Comment").html(tds.eq(2).attr("value"));
+            $("#Write_Title").html(tds.eq(3).attr("value"));
+            $("#BC_Comment_Time").val(tds.eq(4).html());
+            $("#BC_CommentId").val($(this).attr("value"));
+            $("#BC_ArticleID").val($(this).parent().attr("value"));
+
+            var _BC_CommentId=$("#BC_CommentId").val();//得到评论编号
+            var _BC_ArticleID=$("#BC_ArticleID").val();//得到文章编号
+
+            var layer_ = layer.open({
+                type: 1,
+                title: "详情",
+                area: ["800px", "500px"],
+                content: $("#form1"),
+                btn: ["关闭", "删除"],
+                btn1: function () {
+                    layer.closeAll();
+                }, btn2: function () {//点击删除
+                    layer.closeAll();
+                    $.post("ChildrenComment", { BC_CommentId: _BC_CommentId }, function (res) {
+
+                        if (res > 0) {
+
+                            layer.open({
+                                title: "提示",
+                                content: "该条评论下面有其他评论，如果删除该条评论将删除该条评论下面的所有评论，您确定删除吗？",
+                                btn: ["删除", "取消"],
+                                btn1: function () {
+                                    layer.closeAll();
+                                    //调用删除的方法
+                                    del(_BC_CommentId, _BC_ArticleID);
+
+                                }, btn2: function () {
+                                    layer.closeAll();
+                                }
+                            });
+
+                        }
+                        else {
+                            //调用删除的方法
+                            del(_BC_CommentId, _BC_ArticleID);
+                        }
+                    });
+                }
+            });
+            layer.full(layer_);
+        });
+
+        //确定删除的方法
+        var del = function (_BC_CommentId, _BC_ArticleID) {
+
+            $.post("DelPeraonalComment", { BC_CommentId: _BC_CommentId, BC_ArticleID: _BC_ArticleID }, function (result) {
+                if (result > 0) {
+                    alert("删除成功");
+                    $("#form2").submit();
+                } else {
+                    alert("删除失败");
+                }
+            });
+        }
+
+        $(".del").click(function () {
+
+            var _BC_CommentId = $(this).attr("value");//评论编号
+            var _BC_ArticleID= $(this).parent().attr("value")//博客编号
+            $.post("ChildrenComment", { BC_CommentId: _BC_CommentId }, function (res) {
+
+                if (res > 0) {
+
+                    layer.open({
+                        title: "提示",
+                        content: "该条评论下面有其他评论，如果删除该条评论将删除该条评论下面的所有评论，您确定删除吗？",
+                        btn: ["删除", "取消"],
+                        btn1: function () {
+                            layer.closeAll();
+                            //调用删除的方法
+                            del(_BC_CommentId, _BC_ArticleID);
+                            
+                        }, btn2: function () {
+                            layer.closeAll();
+                        }
+                    });
+
+                }
+                else {
+                    //调用删除的方法
+                    del(_BC_CommentId, _BC_ArticleID);
+                }
+
+            })
+
+        });
+
+
+        //分页
+        $.jqPaginator('#pagination1', {
+            totalPages: parseInt($("#allpage").val()),
+            visiblePages: 10,
+            currentPage: parseInt($("#num").val()),
+            first: '<li class="first"><a href="javascript:;">首页</a></li>',
+            prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+            next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+            last: '<li class="last"><a href="javascript:;">尾页</a></li>',
+            page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+            onPageChange: function (num, type) {
+                if (type != "init") {
+                    //给隐藏域赋值
+                    $("#num").val(num);
+                    $("#form2").submit();
+                }
+            }
+        });
+
+        //键盘事件
+       //$(document).keydown(function () {
+       //     alert(4);
+       // });
+
+    });
+</script>
+
+
+<div class="container" style="background-color: white; margin-top:10px">
+    <form id="form2" method="post">
+
+          <input type="hidden" id="num" value="@ViewBag.rows" name="num" />
+                <input type="hidden" id="allpage" value="@ViewBag.allpage" name="allpage" />
+        <table class="table table-hover" style="margin-top: 50px; margin-bottom: 50px;">
+            <tr>
+                <th>#</th>
+                <th>我评论的</th>
+                <th>评论内容</th>
+                <th>博客标题</th>
+                <th>评论时间</th>
+                <th>操作 </th>
+            </tr>
+
+            @for (int i = 0; i < bcdlist.Count; i++)
+            {
+                <tr  style="font-family:宋体">
+                    <td>@(i + 1)</td>
+                    <td>@bcdlist[i].Ulogin_BlogName</td>
+                    @if (@bcdlist[i].BC_Comment.Length > 15)
+                    {
+                        <td style="word-break: break-all; word-wrap: break-word" value="@bcdlist[i].BC_Comment">@bcdlist[i].BC_Comment.Substring(0, 15)...</td>
+                    }
+                    else
+                    {
+                        <td style="word-break: break-all; word-wrap: break-word" value="@bcdlist[i].BC_Comment">@bcdlist[i].BC_Comment</td>
+                    }
+                    @if (@bcdlist[i].Write_Title.Length > 15)
+                    {
+
+                        <td style="word-break: break-all; word-wrap: break-word" value="@bcdlist[i].Write_Title">@bcdlist[i].Write_Title.Substring(0, 15)</td>
+
+                    }
+                    else
+                    {
+
+                        <td style="word-break: break-all; word-wrap: break-word" value="@bcdlist[i].Write_Title">@bcdlist[i].Write_Title</td>
+                    }
+                    <td>@bcdlist[i].BC_Comment_Time</td>
+                    <td value="@bcdlist[i].BC_ArticleID">
+                        <a class="watch" value="@bcdlist[i].BC_CommentId">详情</a> |
+                    <a class="del"  value="@bcdlist[i].BC_CommentId">删除</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+           <p id="p1"></p>
+            <ul class="pagination" id="pagination1"></ul>
+    </form>
+
+    <form id="form1" method="post" style="display: none;margin-top:50px">
+        <input type="hidden" id="BC_CommentId" />
+        <input type="hidden" id="BC_ArticleID" />
+        <table style="height: 400px; margin: auto;">
+            <tr>
+                <td>我评论的：</td>
+                <td>
+                    <input id="Ulogin_BlogName" type="text" readonly="readonly" style="width: 500px" /></td>
+            </tr>
+            <tr>
+                <td>评论内容：</td>
+                <td>
+                    <textarea id="BC_Comment" cols="60" rows="6" readonly="readonly" style="resize:none">
+
+                     </textarea>
+            </tr>
+            <tr>
+                <td>博客标题：</td>
+                <td>
+                    <textarea id="Write_Title" cols="60" rows="3" readonly="readonly" style="resize:none">
+
+                     </textarea></td>
+            </tr>
+            <tr>
+                <td>评论时间：</td>
+                <td>
+                    <input id="BC_Comment_Time" type="text" readonly="readonly" style="width: 500px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+

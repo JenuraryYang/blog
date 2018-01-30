@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BlogModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MonkeyDBEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="AdminUser" EntityType="BlogModel.AdminUser" />
+    <EntitySet Name="Auditing_Blog" EntityType="BlogModel.Auditing_Blog" />
+    <EntitySet Name="Backstage_Category" EntityType="BlogModel.Backstage_Category" />
+    <EntitySet Name="Carousel_figure" EntityType="BlogModel.Carousel_figure" />
+    <EntitySet Name="Category" EntityType="BlogModel.Category" />
+    <EntitySet Name="Comment" EntityType="BlogModel.Comment" />
+    <EntitySet Name="FollowUser" EntityType="BlogModel.FollowUser" />
+    <EntitySet Name="KeyWord" EntityType="BlogModel.KeyWord" />
+    <EntitySet Name="Special" EntityType="BlogModel.Special" />
+    <EntitySet Name="ULogin" EntityType="BlogModel.ULogin" />
+    <EntitySet Name="Users_Details" EntityType="BlogModel.Users_Details" />
+    <EntitySet Name="Write_blog" EntityType="BlogModel.Write_blog" />
+    <EntitySet Name="Blog_Comment" EntityType="BlogModel.Blog_Comment" />
+  </EntityContainer>
+  <EntityType Name="AdminUser">
+    <Key>
+      <PropertyRef Name="AdminUser_Id" />
+    </Key>
+    <Property Name="AdminUser_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminUser_Number" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="AdminUser_Pwd" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_ID" Type="Int32" />
+    <Property Name="AdminUser_IsSuper" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Auditing_Blog">
+    <Key>
+      <PropertyRef Name="Auditing_Blog_Id" />
+    </Key>
+    <Property Name="Auditing_Blog_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminUser_Id" Type="Int32" />
+    <Property Name="Write_blog_Id" Type="Int32" />
+    <Property Name="Auditing_Blog_State" Type="Int32" />
+    <Property Name="Auditing_Blog_Time" Type="DateTime" Precision="3" />
+    <Property Name="Auditing_Blog_Msg" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Backstage_Category">
+    <Key>
+      <PropertyRef Name="Backstage_Category_Id" />
+    </Key>
+    <Property Name="Backstage_Category_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Backstage_Category_Type" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Carousel_figure">
+    <Key>
+      <PropertyRef Name="Carousel_Id" />
+    </Key>
+    <Property Name="Carousel_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Carousel_Image" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Write_blog_Id" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Carousel_Remark" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Category_Id" />
+    </Key>
+    <Property Name="Category_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Category_Type" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="ULogin_Id" Type="Int32" />
+    <Property Name="Category_Reception" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Comment_User" Type="Int32" />
+    <Property Name="Comment_Time" Type="DateTime" Precision="3" />
+    <Property Name="Write_blog_Id" Type="Int32" />
+    <Property Name="Comment_Content" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="ULogin_Id" Type="Int32" />
+    <Property Name="Comment_deletedate" Type="DateTime" Precision="3" />
+    <Property Name="Parent_Comment_Id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="FollowUser">
+    <Key>
+      <PropertyRef Name="FollowUser_ID" />
+    </Key>
+    <Property Name="FollowUser_ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="FollowUser_User1" Type="Int32" />
+    <Property Name="FollowUser_User2" Type="Int32" />
+    <Property Name="FollowUser_Remark" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="FollowUser_FollowDate" Type="DateTime" Precision="3" />
+    <Property Name="FollowUser_CancelData" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="KeyWord">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="KeyWord_Val" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Special">
+    <Key>
+      <PropertyRef Name="Special_Id" />
+    </Key>
+    <Property Name="Special_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Special_Name" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Special_Introduce" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="ULogin_Id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ULogin">
+    <Key>
+      <PropertyRef Name="ULogin_Id" />
+    </Key>
+    <Property Name="ULogin_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ULogin_Phone" Type="String" MaxLength="11" Unicode="false" FixedLength="false" />
+    <Property Name="ULogin_Email" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
+    <Property Name="ULogin_Password" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
+    <Property Name="Ulogin_BlogName" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_ID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Users_Details">
+    <Key>
+      <PropertyRef Name="Users_Details_ID" />
+    </Key>
+    <Property Name="Users_Details_ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Users_Details_Name" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_RealName" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_Jop" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_Sex" Type="Int32" />
+    <Property Name="Users_Details_Photo" Type="String" MaxLength="64" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_Birthday" Type="String" MaxLength="64" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_Industry" Type="String" MaxLength="64" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_Follow" Type="Int32" />
+    <Property Name="Users_Details_Etc" Type="Int32" />
+    <Property Name="Users_Details_LoginDate" Type="DateTime" Precision="3" />
+    <Property Name="Users_Details_Delete" Type="DateTime" Precision="3" />
+    <Property Name="Users_Details_LoginUrl" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="Users_Details_Resume" Type="String" MaxLength="600" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Write_blog">
+    <Key>
+      <PropertyRef Name="Write_blog_Id" />
+    </Key>
+    <Property Name="Write_blog_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Write_Title" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Write_ArticleType" Type="Int32" />
+    <Property Name="Write_Content" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Backstage_Category_Id" Type="Int32" />
+    <Property Name="Write_Label" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+    <Property Name="Category_Id" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="Write_Private" Type="Int32" />
+    <Property Name="ULogin_Id" Type="Int32" />
+    <Property Name="Write_Createdate" Type="DateTime" Precision="3" />
+    <Property Name="Write_Deletedate" Type="DateTime" Precision="3" />
+    <Property Name="Write_State" Type="Int32" />
+    <Property Name="Write_IsDel" Type="Int32" />
+    <Property Name="Write_ReadCount" Type="Int32" />
+    <Property Name="Write_ZanCount" Type="Int32" />
+    <Property Name="Write_Collection" Type="Int32" />
+    <Property Name="Blog_Recommend" Type="Int32" />
+    <Property Type="String" Name="ULogin_IdIsManager" MaxLength="5" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Blog_Comment">
+    <Key>
+      <PropertyRef Name="BC_CommentId" />
+    </Key>
+    <Property Type="Int32" Name="BC_CommentId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="BC_ArticleID" />
+    <Property Type="Int32" Name="BC_BlogID" />
+    <Property Type="Int32" Name="BC_UserID" />
+    <Property Type="Int32" Name="BC_ForUserID" />
+    <Property Type="Int32" Name="BC_Comment_ParentId" />
+    <Property Type="DateTime" Name="BC_Comment_Time" Precision="3" />
+    <Property Type="String" Name="BC_Comment" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

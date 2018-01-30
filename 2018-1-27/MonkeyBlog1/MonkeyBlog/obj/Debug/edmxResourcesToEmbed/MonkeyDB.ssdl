@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BlogModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BlogModelStoreContainer">
+    <EntitySet Name="AdminUser" EntityType="BlogModel.Store.AdminUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Auditing_Blog" EntityType="BlogModel.Store.Auditing_Blog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Backstage_Category" EntityType="BlogModel.Store.Backstage_Category" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Blog_Comment" EntityType="BlogModel.Store.Blog_Comment" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Carousel_figure" EntityType="BlogModel.Store.Carousel_figure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Category" EntityType="BlogModel.Store.Category" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comment" EntityType="BlogModel.Store.Comment" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FollowUser" EntityType="BlogModel.Store.FollowUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="KeyWord" EntityType="BlogModel.Store.KeyWord" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Special" EntityType="BlogModel.Store.Special" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ULogin" EntityType="BlogModel.Store.ULogin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users_Details" EntityType="BlogModel.Store.Users_Details" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Write_blog" EntityType="BlogModel.Store.Write_blog" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="AdminUser">
+    <Key>
+      <PropertyRef Name="AdminUser_Id" />
+    </Key>
+    <Property Name="AdminUser_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AdminUser_Number" Type="varchar" MaxLength="20" />
+    <Property Name="AdminUser_Pwd" Type="varchar" MaxLength="20" />
+    <Property Name="Users_Details_ID" Type="int" />
+    <Property Name="AdminUser_IsSuper" Type="int" />
+  </EntityType>
+  <EntityType Name="Auditing_Blog">
+    <Key>
+      <PropertyRef Name="Auditing_Blog_Id" />
+    </Key>
+    <Property Name="Auditing_Blog_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AdminUser_Id" Type="int" />
+    <Property Name="Write_blog_Id" Type="int" />
+    <Property Name="Auditing_Blog_State" Type="int" />
+    <Property Name="Auditing_Blog_Time" Type="datetime" />
+    <Property Name="Auditing_Blog_Msg" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Backstage_Category">
+    <Key>
+      <PropertyRef Name="Backstage_Category_Id" />
+    </Key>
+    <Property Name="Backstage_Category_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Backstage_Category_Type" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Blog_Comment">
+    <Key>
+      <PropertyRef Name="BC_CommentId" />
+    </Key>
+    <Property Name="BC_CommentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="BC_ArticleID" Type="int" />
+    <Property Name="BC_BlogID" Type="int" />
+    <Property Name="BC_UserID" Type="int" />
+    <Property Name="BC_ForUserID" Type="int" />
+    <Property Name="BC_Comment_ParentId" Type="int" />
+    <Property Name="BC_Comment_Time" Type="datetime" />
+    <Property Name="BC_Comment" Type="text" />
+  </EntityType>
+  <EntityType Name="Carousel_figure">
+    <Key>
+      <PropertyRef Name="Carousel_Id" />
+    </Key>
+    <Property Name="Carousel_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Carousel_Image" Type="varchar" MaxLength="100" />
+    <Property Name="Write_blog_Id" Type="varchar" MaxLength="100" />
+    <Property Name="Carousel_Remark" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Category_Id" />
+    </Key>
+    <Property Name="Category_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Category_Type" Type="varchar" MaxLength="20" />
+    <Property Name="ULogin_Id" Type="int" />
+    <Property Name="Category_Reception" Type="int" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Comment_User" Type="int" />
+    <Property Name="Comment_Time" Type="datetime" />
+    <Property Name="Write_blog_Id" Type="int" />
+    <Property Name="Comment_Content" Type="varchar" MaxLength="200" />
+    <Property Name="ULogin_Id" Type="int" />
+    <Property Name="Comment_deletedate" Type="datetime" />
+    <Property Name="Parent_Comment_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="FollowUser">
+    <Key>
+      <PropertyRef Name="FollowUser_ID" />
+    </Key>
+    <Property Name="FollowUser_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FollowUser_User1" Type="int" />
+    <Property Name="FollowUser_User2" Type="int" />
+    <Property Name="FollowUser_Remark" Type="nvarchar" MaxLength="10" />
+    <Property Name="FollowUser_FollowDate" Type="datetime" />
+    <Property Name="FollowUser_CancelData" Type="datetime" />
+  </EntityType>
+  <EntityType Name="KeyWord">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="KeyWord_Val" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Special">
+    <Key>
+      <PropertyRef Name="Special_Id" />
+    </Key>
+    <Property Name="Special_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Special_Name" Type="varchar" MaxLength="20" />
+    <Property Name="Special_Introduce" Type="varchar" MaxLength="200" />
+    <Property Name="ULogin_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="ULogin">
+    <Key>
+      <PropertyRef Name="ULogin_Id" />
+    </Key>
+    <Property Name="ULogin_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ULogin_Phone" Type="varchar" MaxLength="11" />
+    <Property Name="ULogin_Email" Type="varchar" MaxLength="32" />
+    <Property Name="ULogin_Password" Type="varchar" MaxLength="32" />
+    <Property Name="Ulogin_BlogName" Type="varchar" MaxLength="32" />
+    <Property Name="Users_Details_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Users_Details">
+    <Key>
+      <PropertyRef Name="Users_Details_ID" />
+    </Key>
+    <Property Name="Users_Details_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Users_Details_Name" Type="varchar" Nullable="false" MaxLength="20" />
+    <Property Name="Users_Details_RealName" Type="varchar" MaxLength="20" />
+    <Property Name="Users_Details_Jop" Type="varchar" MaxLength="20" />
+    <Property Name="Users_Details_Sex" Type="int" />
+    <Property Name="Users_Details_Photo" Type="varchar" MaxLength="64" />
+    <Property Name="Users_Details_Birthday" Type="varchar" MaxLength="64" />
+    <Property Name="Users_Details_Industry" Type="varchar" MaxLength="64" />
+    <Property Name="Users_Details_Follow" Type="int" />
+    <Property Name="Users_Details_Etc" Type="int" />
+    <Property Name="Users_Details_LoginDate" Type="datetime" />
+    <Property Name="Users_Details_Delete" Type="datetime" />
+    <Property Name="Users_Details_LoginUrl" Type="varchar" MaxLength="10" />
+    <Property Name="Users_Details_Resume" Type="varchar" MaxLength="600" />
+  </EntityType>
+  <EntityType Name="Write_blog">
+    <Key>
+      <PropertyRef Name="Write_blog_Id" />
+    </Key>
+    <Property Name="Write_blog_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Write_Title" Type="varchar" MaxLength="100" />
+    <Property Name="Write_ArticleType" Type="int" />
+    <Property Name="Write_Content" Type="text" />
+    <Property Name="Backstage_Category_Id" Type="int" />
+    <Property Name="Write_Label" Type="varchar" MaxLength="40" />
+    <Property Name="Category_Id" Type="varchar" MaxLength="30" />
+    <Property Name="Write_Private" Type="int" />
+    <Property Name="ULogin_Id" Type="int" />
+    <Property Name="Write_Createdate" Type="datetime" />
+    <Property Name="Write_Deletedate" Type="datetime" />
+    <Property Name="Write_State" Type="int" />
+    <Property Name="Write_IsDel" Type="int" />
+    <Property Name="Write_ReadCount" Type="int" />
+    <Property Name="Write_ZanCount" Type="int" />
+    <Property Name="Write_Collection" Type="int" />
+    <Property Name="Blog_Recommend" Type="int" />
+    <Property Name="ULogin_IdIsManager" Type="varchar" MaxLength="5" />
+  </EntityType>
+</Schema>

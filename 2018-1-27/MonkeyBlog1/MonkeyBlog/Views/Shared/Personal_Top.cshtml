@@ -1,0 +1,61 @@
+﻿
+
+<style>
+
+    .Personal_Bar {
+    
+        margin-top:20px;
+        margin-left:40px;
+        margin-bottom:10px;
+       
+    }
+
+    .Personal_Bar div {
+      margin-left:40px;
+       display:inline;
+       
+    }
+
+        .Personal_Bar a:hover {
+
+            color:red;
+            font-size:18px;
+            padding:8px 12px;
+            font-weight:bolder;
+            background-color:#bdbdbd;
+            border-radius:5%;
+            cursor:pointer;
+        }
+        .Personal_Bar a {
+            text-decoration:none;
+            color:black;
+        }
+    .select{
+
+        font-size:18px;
+        font-weight:bolder;
+        border-bottom:2px solid red;
+    }
+</style>
+
+
+<div class="Personal_Bar">
+
+    <div><a href="/Personal/index" class="Personal_A" id="Personal_Index" ><span>个人中心</span></a></div>
+    <div><a href="/Personal/Personal_Message" id="Personal_Message" class="Personal_A"><span>消息中心</span></a></div>
+    <div><a href="/Personal/Account" id="Account" class="Personal_A"><span>账号</span></a></div>
+    <div><a href="/Personal/Personal_Question" id="Personal_Question" class="Personal_A"><span>我的问答</span></a></div>
+    <hr />
+</div>
+
+<script>
+
+    function selector(index,id) {
+      
+        document.getElementById(id).style.color = "red";
+
+      document.getElementsByClassName("Personal_A")[index].setAttribute("class", "select");
+
+    }
+
+</script>

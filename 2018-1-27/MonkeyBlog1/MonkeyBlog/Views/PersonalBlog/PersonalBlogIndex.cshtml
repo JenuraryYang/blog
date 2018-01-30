@@ -1,0 +1,470 @@
+﻿@{
+    ViewBag.Title = "个人博客";
+    Layout = "~/views/shared/Index_Top_Layout.cshtml";
+}
+
+@using MonkeyBlog;
+
+@{
+    
+    List<Write_blog> wblist = ViewBag.wblist as List<Write_blog>;
+    List<int> bccountlist = ViewBag.bccountlist as List<int>;
+
+    List<Category> calist = ViewBag.calist as List<Category>;
+
+    Dictionary<int, int> dic_cateidcount = ViewBag.cateidcount as Dictionary<int, int>;
+
+
+    ULogin loginuser = ViewBag.LoginUser as ULogin;
+
+    ULogin WatchUser = ViewBag.WatchUser as ULogin;
+}
+
+
+@*<link href="~/~/content/images//CSS/style.css" rel="stylesheet" />*@
+
+
+@*<link href="~/Content/getpage/css/page.css" rel="stylesheet" />
+<script src="~/content/bs/js/jquery.min.js"></script>
+<script src="~/content/bs/js/bootstrap.js"></script>
+
+<script src="~/Content/getpage/js/jqPaginator.js"></script>*@
+
+<link href="~/Content/bs/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/getpage/css/page.css" rel="stylesheet" />
+<script src="~/content/bs/js/bootstrap.js"></script>
+<script src="~/Content/getpage/js/jqPaginator.js"></script>
+
+
+
+
+@*<script>
+    new WOW().init();
+</script>*@
+<style>
+    #header span {
+        font-size: 16px;
+        /*font-family: 创艺简老宋;*/
+    }
+
+    .usermessage {
+        background: #fff;
+        width: 312px;
+        height: 146px;
+        margin-bottom: 20px;
+    }
+
+        .usermessage > .images {
+            margin-left: 20px;
+        }
+
+            .usermessage > .images > .img {
+                float: left;
+                height: 58px;
+                width: 58px;
+            }
+
+            .usermessage > .images > .name {
+                margin-left: 76px;
+            }
+
+    .name > .button {
+        width: 60px;
+        height: 23px;
+        border: solid 1px red;
+        border-radius: 5px;
+        font-size: 8px;
+        color: red;
+        margin-top: 10px;
+        text-align: center;
+        font-weight: 400;
+    }
+
+    .tech-btm > .article > .title {
+        float: left;
+        margin-left: 2px;
+    }
+
+    .tech-btm > .article > .more {
+        margin-left: 38px;
+        font-size: small;
+    }
+
+    .tech-btm > .article {
+        border-left: solid 2px red;
+        font-weight: 600;
+    }
+
+    .name > .articlename a {
+        color: #757a7e;
+        font-family: 'Microsoft YaHei';
+        float: left;
+    }
+
+    .name > .articlename {
+        margin-top: 18px;
+    }
+
+    .blo-top1 {
+        margin-bottom: 20px;
+    }
+
+    .name > .articlename > .num {
+        color: #757a7e;
+        font-family: 'Microsoft YaHei';
+        margin-left: 210px;
+        font-size: small;
+    }
+
+    .bianji {
+        position: absolute;
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+
+    .divbtn {
+        height: 30px;
+        background-color: transparent;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .username {
+        font-family: 微软雅黑;
+    }
+
+    .blogdiv {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .page {
+        padding: 0px;
+    }
+
+    .active {
+        width: inherit;
+    }
+</style>
+<script>
+    $(function () {
+        //分页
+        $.jqPaginator('#pagination1', {
+            totalPages: parseInt($("#allpage").val()),
+            visiblePages: 10,
+            currentPage: parseInt($("#num").val()),
+            first: '<li class="first"><a href="javascript:;">首页</a></li>',
+            prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+            next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+            last: '<li class="last"><a href="javascript:;">尾页</a></li>',
+            page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+            onPageChange: function (num, type) {
+                if (type != "init") {
+                    //给隐藏域赋值
+                    $("#num").val(num);
+                    $("#form1").submit();
+                }
+            }
+        });
+
+
+
+        $(".divbtn").mouseover(function () {
+            $(this).css("background-color", "#f00");
+            $(this).children().css("color", "white");
+        });
+
+        $(".divbtn").mouseleave(function () {
+            $(this).css("background-color", "transparent");
+            $(this).children().css("color", "#0094ff");
+        });
+
+        //编辑
+        $(".editor").on("click", function () {
+
+            location.href = "/WriteBlog/UpdateWriteBlogIndex?Write_blog_Id=" + $(this).attr("value");
+
+            //$.post("/WriteBlog/UpdateWriteBlogIndex", {Write_blog_Id:$(this).attr("value")}, function (res) {
+
+            //});
+        });
+
+        //删除
+        $(".del").on("click", function () {
+            $.post("/WriteBlog/DelWriteBlog", { Write_blog_Id: $(this).attr("value") }, function (res) {
+                if (res > 0) {
+                    alert("删除成功");
+                    location.href = "PersonalBlogIndex";
+                } else {
+                    alert("删除失败");
+                }
+            });
+        });
+
+
+        //查询
+        $("#Write_ArticleType").change(function () {
+            $("#num").val(1);
+            $("#form1").submit();
+        });
+
+        //搜索
+        $("#search").click(function () {
+            $("#num").val(1);
+            $("#form1").submit();
+        });
+
+    });
+</script>
+<div style="margin-left: 70px">
+</div>
+<div class="col-md-12 bianji">
+    <div class="col-md-7 ">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+            <h1 class="username"><b>某某人的博客</b></h1>
+        </div>
+
+    </div>
+
+    @if (loginuser != null && loginuser.ULogin_Id == WatchUser.ULogin_Id)
+    {
+        <div class="col-md-4" id="personalmanager" style="display: flex; flex-direction: row; justify-space: around">
+            <div class="col-md-3"></div>
+            <div class="col-md-5 divbtn" style="border: 1px solid orange;">
+                <a href="#">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>修改个人资料
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4 divbtn" style="border: 1px solid orange;">
+                <a href="~/WriteBlog/WriteBlogIndex">
+                    <span class="glyphicon  glyphicon-cog" aria-hidden="true"></span>管理博客
+                </a>
+            </div>
+        </div>
+    }
+
+    <div class="col-md-1"></div>
+</div>
+
+<!-- technology-left -->
+
+
+<div class="col-md-12" style="margin-top: 90px">
+    <div class="col-md-1"></div>
+    <div class="col-md-11">
+
+        <div class="col-md-9 technology-left" style="background-color: white">
+            <form id="form1" action="PersonalBlogIndex" method="post">
+                <input type="hidden" id="num" value="@ViewBag.rows" name="num" />
+                <input type="hidden" id="allpage" value="@ViewBag.allpage" name="allpage" />
+                <div class="col-md-12">
+                    <div class="col-md-3" style="margin-top: 28px">
+
+                        <select name="Write_ArticleType" id="Write_ArticleType" class="col-md-9" style="height: 40px; line-height: 40px">
+                            <option value="-1">请选择</option>
+                            <option value="0">原创</option>
+                            <option value="1">转载</option>
+                            <option value="2">翻译</option>
+                        </select>
+                        <input type="hidden" id="hiddenWrite_ArticleType" value="@ViewBag.Write_ArticleType" />
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-5" style="margin-top: 28px; display: flex; flex-direction: row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.searchcontent" name="searchcontent" id="searchcontent" placeholder="搜索博主文章" style="height: 40px; line-height: 40px; width: 100%; border: 1px solid gray; border-right: none; border-radius: 5px 0 0 5px;" />
+
+                        </div>
+                        <div class="col-md-3" style="margin-left: -30px">
+                            <input type="button" id="search" value="搜索" style="height: 40px; line-height: 40px; text-align: center; width: 100%; border: 1px solid gray; border-left: none; border-radius: 0 5px 5px 0; color: white;" />
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <script>
+                    $(function () {
+                        $("#Write_ArticleType").find("option").each(function (index, item) {
+                            if ($("#hiddenWrite_ArticleType").val() == $(item).val()) {
+                                $(item).prop("selected", "selected");
+                            }
+                        });
+
+                    })
+                </script>
+
+            </form>
+            @for (int i = 0; i < wblist.Count(); i++)
+            {   
+                <input type="hidden" value="@wblist[i].Write_Content" class="hiddencontent"/>
+                <div class="col-md-12" value="@wblist[i].Write_blog_Id" >
+                    <div class="col-md-12"></div>
+                    <!--文章-->
+                    <div class="colmd-12" style="margin-top: 15px; height: 100px; margin-bottom: 10px">
+                        <div class="col-md-12 blogdiv" style="font-size: 21px; font-family: 微软雅黑; color: black">
+                            @wblist[i].Write_Title
+                        </div>
+                        <div class="col-md-12 blogdiv contentdiv" style="font-size: 14px; font-family: 微软雅黑; color: gray; margin-top: 10px">
+                        </div>
+                        <div class="col-md-12 blogdiv" style="font-size: 14px; font-family: 微软雅黑; color: gray; margin-top: 10px; display: flexbox; flex-direction: row">
+
+                            @if (@wblist[i].Write_ArticleType == 0)
+                            {
+                                <div class="col-md-1">原创 </div>
+                            }
+                            else if (@wblist[i].Write_ArticleType == 1)
+                            {
+                                <div class="col-md-1">转载 </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-1">翻译 </div> 
+                            }
+
+
+                            <div class="col-md-3">@wblist[i].Write_Createdate</div>
+                            <div class="col-md-1"><i class="icon iconfont icon-read"></i>@wblist[i].Write_ReadCount</div>
+                            <div class="col-md-1"><i class="icon iconfont icon-pinglun"></i>@bccountlist[i]</div>
+                            <div class="col-md-4"></div>
+                            @if (loginuser != null && loginuser.ULogin_Id == WatchUser.ULogin_Id)
+                            {
+                                <div class="col-md-2"><span class="editor" style="color:deepskyblue"  value="@wblist[i].Write_blog_Id">编辑</span> | <span class="del" style="color:red" value="@wblist[i].Write_blog_Id">删除</span></div>
+                        
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="height: 1px; border-top: 0.5px dashed lightgray;"></div>
+                </div>
+  
+            }
+
+            @*       <p id="p1"></p>*@
+            <ul class="pagination" id="pagination1"></ul>
+        </div>
+
+
+
+
+        <!--右侧-->
+        <div class="col-md-3 technology-right">
+            <!--个人信息-->
+            <div class="usermessage">
+                <div style="height: 22px"></div>
+                <div class="images">
+                    <div class="img">
+                        <img src="~/content/images/g3.jpg" style="width: 58px; height: 58px;" />
+                    </div>
+                    <div class="name">
+                        <h4><b>用户名</b></h4>
+                        <div class="button">+关注</div>
+                    </div>
+                </div>
+            </div>
+
+            <!--文章分类-->
+            <div class="blo-top1">
+
+                <div class="tech-btm">
+                    <div class="article">
+                        <h4 class="title">个人分类</h4>
+                        <a href="#" target="_blank" class="more"><span>更多分类</span></a>
+                    </div>
+                    @foreach (var item in calist)
+                    {
+                        <div class="ti">
+                            <div class="clearfix"></div>
+                            <div class="name">
+                                <div class="articlename">
+                                    <a href="#" style="font-size: 15px">@item.Category_Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: gray; font-size: 10px;">@dic_cateidcount[item.Category_Id]篇</span></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+            <!--他的最新文章-->
+            <div class="blo-top1">
+
+                <div class="tech-btm">
+                    <div class="article">
+                        <h4 class="title">他的最新文章</h4>
+                        <a href="http://blog.csdn.net/wo_shi_ltb" target="_blank" class="more"><span>更多文章</span></a>
+                    </div>
+                    <div class="ti">
+                        <div class="clearfix"></div>
+                        <div class="name">
+                            <div class="articlename">
+                                <a href="#">文章题目</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ti">
+                        <div class="clearfix"></div>
+                        <div class="name">
+                            <div class="articlename">
+                                <a href="#">文章题目</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--文章存档-->
+            <div class="blo-top1">
+
+                <div class="tech-btm">
+                    <div class="article">
+                        <h4 class="title">他的最新文章</h4>
+                        <a href="http://blog.csdn.net/wo_shi_ltb" target="_blank" class="more"><span>更多文章</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="name">
+                        <div class="articlename">
+                            <a href="#">日期</a>
+                            <div class="num">1篇</div>
+                        </div>
+                    </div>
+                    <div class="name">
+                        <div class="articlename">
+                            <a href="#">日期</a>
+                            <div class="num">1篇</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<script>
+    $(function () {
+
+        $(".contentdiv").each(function (index, item) {
+            $(item).html($($(".hiddencontent")[index]).val());
+            if ($(item).text() != "" || $(item).text() != null) {
+                $(item).text($(item).text().toString());
+            } else {
+                $(item).text("....");
+            }
+
+
+        });
+    });
+
+
+</script>

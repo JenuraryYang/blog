@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "MainIndex";
+}
+
+<style>
+    .item {
+        list-style:none;
+        float:left;
+        width:150px;
+        line-height:40px;
+        text-align:center;
+        color:white;
+
+   border-right:1px solid white;
+    }
+
+    .cur {
+        background-color:white;
+        color:black;
+        border-top:2px solid gray;
+    }
+</style>
+
+<script src="~/Content/JS/jquery-2.1.1.min.js"></script>
+
+
+<div style="margin-top:20px">
+    <div style="background-color:deepskyblue;width:100%;        height:40px;">
+        <li class="item" src="http://localhost:8000/PersonalBlog/PeraonalCommentIndex" target="CommentMainFrame"><a >我文章的评论</a></li>
+          <li class="item" src="http://localhost:8000/PersonalBlog/MyCommentIndex" target="CommentMainFrame"><a >我发表的评论</a></li>
+</div>
+    <div>
+                <iframe name="CommentMainFrame" id="CommentMainFrame" height="575"   src="http://localhost:8000/PersonalBlog/PeraonalCommentIndex"  frameborder="no"  marginwidth="0p" marginheight=”0″  width="100%" scrolling="no"></iframe>
+    </div>
+</div>
+<script>
+    $(".item:first").addClass("cur");
+    $(".item").click(function () {
+        $("#CommentMainFrame").prop("src", $(this).attr("src"))
+        $(this).addClass("cur");
+        $(this).siblings().removeClass("cur");
+
+    });
+
+</script>

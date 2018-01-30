@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "类别管理";
+
+}
+
+
+@{
+    List<MonkeyBlog.Category> lis = Model as List<MonkeyBlog.Category>;
+}
+
+
+
+<link href="~/Content/bs/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/CSS/Category.css" rel="stylesheet" />
+<script src="~/Content/bs/js/jquery.min.js"></script>
+
+<script src="~/Content/bs/js/bootstrap.js"></script>
+<script src="~/Content/Vue/vue2.2.4.js"></script>
+
+<style>
+    .color_red {
+        color:red;
+        font-weight:bold;
+    }
+    .color_gray {
+        color:gray;
+    }
+</style>
+
+<script>
+    $(function () {
+
+        //添加类别
+        $("#sub_AddCategory").click(function () {
+            var c = $(this).parent().serializeArray();
+
+            if (c[0].value == null || c[0].value == "") {
+                alert("请输入新类别");
+                return;
+            }
+
+            $.post("/Category/AddCategory1", c, function (result) {
+                var _res = JSON.parse(result);
+
+                if (_res.Result_Code == "000000") {
+                    $("#add").append("<tr myval=\"" + _res.value + "\"><td><div class=\"table_ty\">" + c[0].value + "</div></td><td class=\"table_re\">展示</td><td><a  myval =\"" + _res.value + "\">删除</a></td></tr>");
+                    $("#add").find("tr:last").find("td:eq(1)").addClass("color_red");
+                    a();
+                    b();
+                    c();
+                }
+                else {
+                    alert(_res.Result_Title);
+                }
+            });
+        });
+
+
+        //搜索类别
+        $("#_SearchCategory").click(function () {
+            var _va = $(this);
+
+            $.post("/Category/SearchCategory", { _val: _va.parent().find("input[type=text]").val() }, function (result) {
+                $("#add").html("");
+                for (var item in result)
+                {
+
+                    if (result[item].Category_Reception == 0) {
+                        $("#add").append("<tr myval=\"" + result[item].Category_Id + "\"><td><div class=\"table_ty\">" + result[item].Category_Type + "</div></td><td class=\"table_re  color_red\">展示</td><td><a  myval =\"" + result[item].Category_Id + "\">删除</a></td></tr>");
+                    }
+                    else {
+                        $("#add").append("<tr myval=\"" + result[item].Category_Id + "\"><td><div class=\"table_ty\">" + result[item].Category_Type + "</div></td><td class=\"table_re  color_gray\">不展示</td><td><a  myval =\"" + result[item].Category_Id + "\">删除</a></td></tr>");
+                    }
+                    a();
+                    b();
+                    c();
+
+
+                    console.log(result[item]);
+                }
+
+            });
+        });
+
+
+        //删除类别
+        function a() {
+            $("table").find("a").click(function () {
+                var _th = $(this);
+
+                $.post("/Category/DeleteCategory1", { _id: _th.attr("myval") }, function (result) {
+                    //alert($(this).attr("myval"));
+                    var _res = JSON.parse(result);
+
+                    if (_res.Result_Code == "000000") {
+                        alert(_res.Result_Title);
+                        _th.parent().parent().remove();
+                    }
+                    else {
+                        alert(_res.Result_Title);
+                    }
+                });
+            });
+        }
+        a();
+
+        //修改类别名称
+        function b() {
+            $(".table_ty").click(function () {
+                var _c = $(this).html();
+                var _par = $(this).parent();
+                _par.html("<input type='text' value='" + _c + "'>");
+
+                _par.find("input[type='text']").focusout(function () {
+                    var _th = $(this);
+                    var val = _th.val();
+
+                    $.post("/Category/UpdateTypeCategory1", { _id: _th.parent().parent().attr("myval"), _ct: val }, function (result) {
+                        var _res = JSON.parse(result);
+
+                        if (_res.Result_Code == "000000") {
+
+                            alert(_res.Result_Title);
+
+                            //修改类别名称实现功能处
+                            _th.parent().html("<div class=\"table_ty\">" + val + "</div>");
+
+                            b();
+                        }
+                        else {
+                            alert(_res.Result_Title);
+                            _th.parent().html("<div class=\"table_ty\">" + _c + "</div>");
+                            b();
+                        }
+                    });
+
+                });
+            });
+        }
+        b();
+
+
+        //修改类别显示
+        function c() {
+            $(".table_re").click(function () {
+                var _th = $(this);
+                var _val = _th.html();
+
+                $.post("/Category/UpdateReceptionCategory1", { _id: _th.parent().attr("myval"), _reception: _val }, function (result) {
+                    var _res = JSON.parse(result);
+
+                    if (_res.Result_Code == "000000") {
+
+                        alert(_res.Result_Title);
+
+                        if (_val == "展示") {
+                            _th.html("不展示");
+                            _th.addClass("color_gray");
+                            _th.removeClass("color_red");
+                        }
+                        else {
+                            _th.html("展示");
+                            _th.addClass("color_red");
+                            _th.removeClass("color_gray");
+                        }
+                    }
+                    else {
+                        alert(_res.Result_Title);
+                    }
+                });
+            });
+        }
+
+        c();
+    });
+</script>
+
+
+<div class="MyMenu_Content" style="">
+
+
+    <div class="Blog_Content">
+        @* <div class="blog_menu">
+            <a href="#" class="MyMenu_Select">添加类别</a>
+            <a href="#">类别管理</a>
+        </div>*@
+        <div class="blog_mycontent">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td colspan="3">
+                            <div style="display: flex;flex-direction:row; float: right;">
+                                <form style="display: flexbox; display: -webkit-box">
+                                    <input type="text" name="_ct" placeholder="在这里输入类别" class="form-control" style="width: 200px;" />
+                                    <input type="button" id="sub_AddCategory" class="btn btn-default" value="添加" style="" />
+                                    <input type="button" id="_SearchCategory" class="btn btn-default" value="查找" style="" />
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>名称</th>
+                        <th>展示</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody id="add">
+                    @{
+                        foreach (MonkeyBlog.Category item in lis)
+                        {
+                        <tr myval="@item.Category_Id">
+                            <td>
+                                <div class="table_ty">@(string.IsNullOrEmpty(item.Category_Type) ? "" : item.Category_Type)</div>
+                            </td>
+                            <td class="table_re  @(item.Category_Reception == 0 ? "color_red" : "color_gray")">@(item.Category_Reception == 0 ? "展示" : "不展示")</td>
+                            <td>
+                                <a myval ="@item.Category_Id">删除</a>
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

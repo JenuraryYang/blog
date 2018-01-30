@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "博客详情页";
+    Layout = "~/views/shared/Index_Top_Layout.cshtml";
+}
+
+
+@using MonkeyBlog;
+
+@{
+
+    Write_blog wb = ViewBag.wb as Write_blog;//修改的博客
+}
+
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+@*<link href="~/content/bs/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/CSS/open_close_btn/open_close_btn.css" rel="stylesheet" />
+<script src="~/content/bs/js/jquery.min.js"></script>
+<script src="~/content/bs/js/bootstrap.js"></script>*@
+
+
+<style type="text/css">
+    div {
+        width: 100%;
+    }
+
+    .Write_ArticleType {
+        width: 7%;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid lightgray;
+        color: gray;
+        text-align: center;
+    }
+
+    img {
+        max-width: 100%;
+    }
+</style>
+
+
+
+
+@*@Html.Partial("~/Views/Share/Top_Partial.cshtml")*@
+
+
+<form id="form1" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="@wb.Write_blog_Id" id="Write_blog_Id" name="Write_blog_Id"/>
+    <div class="container" style="background-color: lightgray; margin-top: 30px;">
+        <div class="col-md-12">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" style="background-color: white">
+
+                <div class="col-md-12">
+                    <div class="col-md-12" style="margin-top: 15px">
+                        <h3>@wb.Write_Title</h3>
+                    </div>
+                    <div class="col-md-12" style="display: flex; flex-direction: row; margin-top: 15px; height: 50px">
+
+                        @if (wb.Write_ArticleType == 0)
+                        {
+                            <div class="Write_ArticleType">原创</div>
+                        }
+                        else if (wb.Write_ArticleType == 1)
+                        {
+                            <div class="Write_ArticleType">转载 </div>
+                        }
+                        else
+                        {
+                            <div class="Write_ArticleType">翻译 </div>
+                        }
+                        <div class="col-md-3" style="color: gray; line-height: 30px; height: 30px">@wb.Write_Createdate.ToString()</div>
+
+                        <div class="col-md-8" style="height: 30px; line-height: 30px">
+                            <span style="color: gray">标签：</span>
+                            @{
+                              
+                                string[] Write_Label = wb.Write_Label.Split(',');
+
+                                for (int i = 0; i < Write_Label.Length; i++)
+                                {
+                                <span style="color: deepskyblue">@Write_Label[i]</span>
+                                    if (Write_Label.Length - 1 != i)
+                                    {
+                                <span style="color: gray">/</span>
+                                    }
+                                }
+                            }
+                        </div>
+                        <div style="width: 8%; margin-left: 5px; height: 30px; line-height: 30px;"><i class="glyphicon glyphicon-education" style="color: lightgray"></i>@wb.Write_ReadCount</div>
+                    </div>
+
+                </div>
+                <div class="col-md-12" style="height: 0.5px; background-color: lightgray; margin-bottom: 15px"></div>
+                <div class="col-md-12 content" style="border: 1px solid gray; word-wrap: break-word; word-break: break-all; border: none"></div>
+
+                <div class="col-md-12"style="margin-bottom:15px">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2">
+                        <div class="col-md-5" style="background-color: green; height: 50px; text-align: center; border-radius: 5px;margin-right:10px">
+                            <i class="glyphicon glyphicon-thumbs-up" style="color: white; margin-top: 10px; margin-bottom: 1px"></i>
+                            <lable style="color: white">0</lable>
+                        </div>
+
+                        <div class="col-md-5" style="background-color: green; height: 50px; text-align: center; border-radius: 5px;">
+                            <i class="glyphicon glyphicon-heart" style="color: white; margin-top: 10px; margin-bottom: 1px"></i>
+                            <lable style="color: white">0</lable>
+                        </div>
+                    </div>
+                </div>                           
+                                         
+            </div>
+        
+       
+            <div class="col-md-1"></div>
+        </div>
+
+        <div class="col-md-12" style="margin-top:30px">
+            <div class="col-md-1"></div>
+            <div class="col-md-10" style="background-color:white">
+                  <div class="col-md-12 comment" style="margin-top:20px">               
+                    <b >&nbsp;查看评论</b>
+                    <div class="col-md-12" style="height:2px;background-color:gray"><div class="col-md-1" style="height:2px;background-color:red;margin-left:0px"></div></div>
+                    <div class="col-md=12">
+                        <div class="col-md-12 item" style="margin-top:10px;display:flexbox;flex-direction:row">
+                            <div class="col-md-1">
+                                    <img src="~/Content/Images/si.png" /> 
+                            </div>
+                        <div class="col-md-11">
+                             <div style="color:orange">某某人</div>
+                            <div style="color:black">lallalalalallallal</div>
+                        </div>
+                           
+                        </div>
+
+                    </div>
+            </div>    
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <input type="hidden" value="@wb.Write_Content"  id="Write_Content"/>
+</form>
+
+<script>
+
+    $(".content").html($("#Write_Content").val());
+</script>
+
+
+
